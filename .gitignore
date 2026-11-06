@@ -1,0 +1,62 @@
+# ===== Godot 4 =====
+# Cache, imported assets, export credentials (.godot/export_credentials.cfg)
+.godot/
+/game/android/
+# Temporary files Godot writes while saving
+*.tmp
+# Only relevant if we switch to the .NET variant (see README 1.4)
+.mono/
+mono_crash.*.json
+
+# Do NOT ignore (intentionally in the repo):
+#   *.import, *.uid, project.godot, export_presets.cfg
+
+# ===== Builds / exports =====
+/builds/
+
+# ===== RL / Python =====
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+# Training runs, logs and intermediate states (commit finished models as .onnx)
+/rl/runs/
+/rl/logs/
+/rl/checkpoints/
+/rl/wandb/
+
+# ===== IDEs / editors =====
+.vs/
+.vscode/
+.idea/
+.claude/
+*.user
+*.suo
+*.swp
+*~
+
+# ===== C++ / GDExtension (later) =====
+# Object files. MSVC's *.obj is NOT ignored globally because it collides
+# with Wavefront .obj 3D models; ignore it in the C++ build folder once it exists.
+*.o
+*.os
+*.ilk
+*.pdb
+*.exp
+.sconsign.dblite
+compile_commands.json
+.cache/
+
+# ===== OS =====
+.DS_Store
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ===== Secrets =====
+.env

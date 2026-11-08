@@ -1,8 +1,14 @@
-# Design-Dokument – Idee 3 (Fractured Gravity)
+# Design Guide
 
-Nov 6, 2026 · @Leon
+
+> [!attention] Änderungen an dieser Datei
+> Änderungen an dieser Datei erfordern einen neuen Branch und einen PR. Alternativ Änderungen auf Discord oder anderweitig besprechen und SCRUM Master ändert das Dokument.
 
 ## Über dieses Dokument
+
+> [!NOTE] AI
+> Dieses Dokument mag AI generiert sein und sich teilweise auch so lesen, aber alles hier sollte stimmen.
+
 
 Dieses Dokument ist die zentrale Anlaufstelle für alle Fragen, die beim Umsetzen der Tasks auftauchen. Es fasst den Stand des FigJam-Boards „GamePlan-Idee3“ und unser Konzeptdokument zusammen (Stand 06.11.2026).
 
@@ -14,40 +20,30 @@ Die Gliederung folgt den Bereichen auf dem Board: Basis, 1. Prototyp, Mindestlis
 - **Offen:** muss noch entschieden werden. Alle offenen Punkte stehen zusätzlich gesammelt im Abschnitt „Offene Entscheidungen“.
 - **Vorschlag:** Empfehlung aus der Ausarbeitung, vom Team noch nicht bestätigt.
 
-**Arbeitsregel:** Taucht beim Umsetzen eine Frage auf, die hier nicht beantwortet ist, tragt sie als offene Frage ein, statt still selbst zu entscheiden. Wer etwas entscheidet, ändert „Offen“ zu „Entschieden“ und schreibt kurz das Datum dazu.
-
-### Zeitplan
-
-&#91;embedded content: Meilensteine · Okt 2026 bis Mär 2027\]
-
-Phase 1 endet mit der Final Presentation am 09.02. (Abgabe: README, Pitch, 30-Sekunden-Trailer, spielbare Demo). Bis zum Playtest am 09.03. muss das Spiel voll spielbar sein. Vor jedem Meeting erscheint am Vortag ein Devlog auf Discord, als Nächstes am 16.11.
-
+**Arbeitsregel:** Taucht beim Umsetzen eine Frage auf, die hier nicht beantwortet ist, tragt sie als offene Frage ein oder erstellt ein Issue oder schreibt auf Discord, statt still selbst zu entscheiden. Wer etwas entscheidet, ändert „Offen“ zu „Entschieden“ und schreibt kurz das Datum dazu. Dies kann auch gesammelt durch den SCRUM Master erfolgen
 ## Basis
 
 Kern-Satz: **Wir steuern nicht den Schwarm, sondern die Schwerkraft.** Der Schwarm bewegt sich selbstständig nach dem Boids-Algorithmus, der Spieler lenkt ihn nur indirekt über Gravity Fields.
 
-| Thema | Stand | Festlegung bzw. Optionen |
-| --- | --- | --- |
-| Kern-Satz | Entschieden | Steuerung der Schwerkraft statt des Schwarms. Der Spieler ist nicht Teil des Schwarms (Jakob: den chaotischen Schwarm „bändigen“). |
-| Genre | Entschieden | Echtzeit-Strategie mit Rätseln und Gegnern. Kein Präzisions-Puzzle: Taktik und Reaktion zählen mehr als perfekte Platzierung. |
-| Theme | Entschieden (06.11.) | Unterwasser, der Spieler lenkt einen Fischschwarm. |
-| Perspektive | Entschieden (06.11.) | 2D-Seitenansicht. Eine natürliche Schwerkraft nach unten gibt es nicht: Die Fische schweben frei im Wasser, es wirken nur die Fields des Spielers. |
-| Kamera | Entschieden | Freie Kamera: Bewegen mit WASD, Zoomen. |
-| Engine & Code | Entschieden (06.11.) | Godot 4.7, 2D, GDScript. Neues Projekt; der alte C#-Prototyp wird nicht portiert. |
-| Ziel | Entschieden, vorerst (06.11.) | Möglichst viele Boids ins Ziel bringen. |
-| Gegner | Entschieden (06.11.) | Gegner gehören in den Prototyp. Für das Meeting am 17.11. reicht ein Minimalprototyp ohne Gegner. |
-| Technischer Anker | Entschieden, vorerst (06.11.) | Reinforcement Learning für die Gegner. |
-| Ton | Entschieden (06.11.) | Eher fordernd. |
-| Spielform | Offen | Vorschlag: Singleplayer, PC mit Maus und Tastatur. |
-| Verlieren | Offen | Was passiert, wenn alle Boids sterben? Gibt es eine Mindestzahl, die ankommen muss? |
-
-**Rahmen des Kurses:** Computerspiele & Visual Effects 1+2, Steam-Ready-Track (12 ECTS), Thema *Fractured Gravity*. Vor jedem Betreuer-Meeting erscheint am Vortag ein Devlog auf Discord. Meetings: 10 Minuten Showcase, 10 Minuten Feedback, eigene Fragen an die Betreuer mitbringen. Bewertung: 60 % Betreuer, 40 % Peer-Bewertung im Team.
+| Thema             | Stand                           | Festlegung bzw. Optionen                                                                                                                           |
+| ----------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Kern-Satz         | Entschieden                     | Steuerung der Schwerkraft statt des Schwarms. Der Spieler ist nicht Teil des Schwarms (Jakob: den chaotischen Schwarm „bändigen“).                 |
+| Theme             | Entschieden (06.11.)            | Unterwasser, der Spieler lenkt einen Fischschwarm.                                                                                                 |
+| Perspektive       | Entschieden (06.11.)            | 2D-Seitenansicht. Eine natürliche Schwerkraft nach unten gibt es nicht: Die Fische schweben frei im Wasser, es wirken nur die Fields des Spielers. |
+| Kamera            | Testen und Entscheiden          | Freie Kamera: Bewegen mit WASD, Zoomen.                                                                                                            |
+| Engine & Code     | Entschieden (06.11.)            | Godot 4.7, 2D, GDScript. Neues Projekt; der alte Prototyp wird nicht portiert.                                                                     |
+| Ziel              | Testen und Entscheiden (06.11.) | Möglichst viele Boids ins Ziel bringen.                                                                                                            |
+| Gegner            | Entschieden (06.11.)            | Gegner gehören in den Prototyp. Für das Meeting am 17.11. reicht ein Minimalprototyp ohne Gegner.                                                  |
+| Technischer Anker | Testen und Entscheiden (06.11.) | Reinforcement Learning für die Gegner.                                                                                                             |
+| Ton               | Entschieden (06.11.)            | Eher fordernd. Ein Relaxed Game stellt unnötige Herausforderungen and Spieldesign und Balancing.                                                   |
+| Spielform         | Offen                           | Vorschlag: Singleplayer, PC mit Maus und Tastatur.                                                                                                 |
+| Verlieren         | Offen                           | Was passiert, wenn alle Boids sterben? Gibt es eine Mindestzahl, die ankommen muss?                                                                |
 
 **Bezug zu Fractured Gravity:** Unter Wasser gibt es keine Schwerkraft nach unten – die einzige Schwerkraft sind die Felder, die der Spieler setzt. Gegenüberliegende oder abstoßende Felder zerreißen den Schwarm; das „Fractured“ entsteht direkt aus der Simulation.
 
 ## Team und Rollen (Sprint bis 17.11.)
 
-Für den Sprint bis zum Prototyp-Meeting am 17.11. gibt es vier Rollen. Wer welche Rolle übernimmt, steht noch nicht im Dokument; auf dem Board liegen die Rollen im Bereich „Team“.
+Für den Sprint bis zum Prototyp-Meeting am 17.11. gibt es vier Rollen.
 
 | Rolle | Personen | Aufgaben im Sprint |
 | --- | --- | --- |
@@ -56,7 +52,7 @@ Für den Sprint bis zum Prototyp-Meeting am 17.11. gibt es vier Rollen. Wer welc
 | Devs | 2 | Neues Godot-Projekt aufsetzen, Minimalprototyp ohne Gegner für das Meeting am 17.11. |
 | Reinforcement Learning | 1, teilweise unterstützt vom Scrum Master | Research; den RL-Gegner zunächst außerhalb des Hauptprojekts lauffähig machen |
 
-**Schnittstellen zwischen den Rollen**
+**KI Vorschläge für Schnittstellen zwischen den Rollen**
 
 - **Art → Devs:** Farbpalette und Boid-Design früh als Platzhalter liefern, damit der Prototyp am 17.11. schon nach Unterwasser aussieht. Vorschlag: eine gemeinsame Datei mit den Farbwerten im Projekt.
 - **RL → Devs:** Vor der Integration eine gemeinsame Gegner-Schnittstelle festlegen: was ein Gegner wahrnimmt (z. B. Schwarmzentrum, nächste Boids, Wände) und was er tun kann (z. B. Bewegungsrichtung oder Schwarm-Parameter). Dann lässt sich der RL-Gegner später ohne Umbau einsetzen. Details siehe „Gegner im Prototyp“.
@@ -75,7 +71,7 @@ Der Prototyp muss zeigen, dass indirektes Steuern über Gravity Fields Spaß mac
 - Theme Unterwasser, 2D-Seitenansicht, ohne natürliche Schwerkraft nach unten.
 - Ziel: möglichst viele Boids ins Ziel bringen.
 - Gegner gehören zum Prototyp. Für das Meeting am 17.11. bauen die Devs einen Minimalprototyp ohne Gegner; der RL-Gegner entsteht parallel außerhalb des Hauptprojekts.
-- Neues Godot-Projekt in GDScript, kein Port des alten C#-Prototyps.
+- Neues Godot-Projekt in GDScript, kein Port des alten Prototyps.
 
 ### Umfang
 
@@ -113,36 +109,37 @@ Der Prototyp muss zeigen, dass indirektes Steuern über Gravity Fields Spaß mac
 - **Entschieden (Variante A):** Zwei gegenüberliegende Fields ziehen den Schwarm auseinander. Der Split entsteht aus der Simulation, nicht per Knopf.
 - **Fallback (Variante B):** Ein Button zum Aufteilen, falls Variante A sich nicht kontrollierbar anfühlt.
 - **Vorschlag:** Janas abstoßende Gravitationsfelder (Mindestliste) als dritte Variante testen. Ein abstoßendes Field mitten im Schwarm teilt ihn ohne zweites Field.
-- **Hintergrund (Couzin-Effekt):** Werden zwei Hälften in verschiedene Richtungen gezogen, entsteht bei kleinem Winkel ein Kompromiss. Bei großem Winkel teilt sich der Schwarm oder schnappt zu einer Seite. Das ist günstig umzusetzen und zitierbar ([Couzin et al. 2005](https://www.nature.com/articles/nature03236), [Demo](https://www.complexity-explorables.org/)).
+- **Hintergrund (Couzin-Effekt) (mit Vorsicht genießen):** Werden zwei Hälften in verschiedene Richtungen gezogen, entsteht bei kleinem Winkel ein Kompromiss. Bei großem Winkel teilt sich der Schwarm oder schnappt zu einer Seite. Das ist günstig umzusetzen und zitierbar ([Couzin et al. 2005](https://www.nature.com/articles/nature03236), [Demo](https://www.complexity-explorables.org/)).
 
 ### Gegner im Prototyp
 
-Gegner kommen in den Prototyp, aber erst nach dem Meeting am 17.11. Bis dahin entwickelt die RL-Rolle den Gegner außerhalb des Hauptprojekts.
+Gegner kommen in den Prototyp, bei Bedarf aber erst nach dem Meeting am 17.11. Bis dahin entwickelt die RL-Rolle den Gegner außerhalb des Hauptprojekts.
 
-- **Ansatz (Vorschlag):** Ein KI-Commander steuert den Gegner bzw. Gegnerschwarm. Er entscheidet alle paar Sekunden über wenige Werte, die Boids führen sie aus. Das trainiert stabiler als ein eigener Agent pro Boid.
-- **Zuerst handgeschrieben:** Die Devs bauen den Gegner mit einfacher Regel-Logik hinter derselben Schnittstelle. Der RL-Gegner ersetzt sie später ohne Umbau.
-- **Verhalten (vorläufig, aus der Mindestliste):** Gegner töten Boids bei Kontakt, ihre Stärke zeigt sich an der Größe. Unter Wasser z. B. Raubfische.
-
-**Gegner-Schnittstelle (Vorschlag, zwischen RL und Devs abstimmen):**
-
-| Teil | Inhalt |
-| --- | --- |
-| Wahrnehmung | Position und Größe des Spielerschwarms, Abstand zu den nächsten Boids, Wände in der Nähe, eigene Größe |
-| Aktionen | Zielpunkt bzw. Bewegungsrichtung, Zusammenhalt, Aggressivität |
-| Belohnung im Training | Plus für getötete Boids, Minus für eigene Verluste |
-
-- **Training:** Mit Godot RL Agents, in Python lokal auf dem eigenen PC; das Spiel läuft dabei beschleunigt. Für das Training braucht es einen einfachen Bot, der den Spieler simuliert.
-- **Im fertigen Spiel:** ONNX braucht die .NET-Version des Editors. Alternative: Godot Native RL (ohne C#, Community-Addon v0.4.0). Früh testen, welcher Weg mit dem GDScript-Projekt funktioniert.
-- **Offen:** Kann sich der Schwarm wehren oder nur fliehen? Ein Gegnertyp oder mehrere?
+> [!NOTE] KI Ideen
+>
+> - **Ansatz (Vorschlag):** Ein KI-Commander steuert den Gegner bzw. Gegnerschwarm. Er entscheidet alle paar Sekunden über wenige Werte, die Boids führen sie aus. Das trainiert stabiler als ein eigener Agent pro Boid.
+> - **Zuerst handgeschrieben:** Die Devs bauen den Gegner mit einfacher Regel-Logik hinter derselben Schnittstelle. Der RL-Gegner ersetzt sie später ohne Umbau.
+> - **Verhalten (vorläufig, aus der Mindestliste):** Gegner töten Boids bei Kontakt, ihre Stärke zeigt sich an der Größe. Unter Wasser z. B. Raubfische.
+> 
+> **Gegner-Schnittstelle (Vorschlag, zwischen RL und Devs abstimmen):**
+> 
+>
+> | Teil                  | Inhalt                                                                                                 |
+> | --------------------- | ------------------------------------------------------------------------------------------------------ |
+> | Wahrnehmung           | Position und Größe des Spielerschwarms, Abstand zu den nächsten Boids, Wände in der Nähe, eigene Größe |
+> | Aktionen              | Zielpunkt bzw. Bewegungsrichtung, Zusammenhalt, Aggressivität                                          |
+> | Belohnung im Training | Plus für getötete Boids, Minus für eigene Verluste                                                     |
+> 
+> - **Training:** Mit Godot RL Agents, in Python lokal auf dem eigenen PC; das Spiel läuft dabei beschleunigt. Für das Training braucht es einen einfachen Bot, der den Spieler simuliert.
+> - **Im fertigen Spiel:** ONNX braucht die .NET-Version des Editors. Alternative: Godot Native RL (ohne C#, Community-Addon v0.4.0). Früh testen, welcher Weg mit dem GDScript-Projekt funktioniert.
+> - **Offen:** Kann sich der Schwarm wehren oder nur fliehen? Ein Gegnertyp oder mehrere?
 
 ### Technische Vorgaben für den Prototyp
 
-- Ein Flock-Manager hält alle Boids in parallelen Arrays (Position, Geschwindigkeit, Werte pro Boid). Keine eigenen Nodes pro Boid.
-- Rendering aller Boids über ein `MultiMeshInstance2D`, Transformationen in einem einzigen Aufruf hochladen.
-- Nachbarsuche über ein Spatial Grid (Zellgröße = Sichtradius), nicht jeder gegen jeden.
+- Ein Flock-Manager hält alle Boids (Position, Geschwindigkeit, Werte pro Boid). Keine eigenen Nodes pro Boid.
+- Möglichst Performance Optimiert
 - Alle Tuning-Werte als `@export` im Editor: Separation, Alignment, Cohesion, Sichtradius, Maximalgeschwindigkeit, Field-Stärke, Field-Radius, Field-Dauer.
 - Debug-Overlay zum Ein- und Ausblenden: Field-Radien, Sichtradius, Schwarmzentrum, Boid-Anzahl, Framezeit.
-- **Entschieden (06.11.):** Neues Projekt, der alte C#-Prototyp wird nicht portiert.
 
 ### Abnahme bis 17.11.
 
@@ -159,12 +156,9 @@ Gegner kommen in den Prototyp, aber erst nach dem Meeting am 17.11. Bis dahin en
 
 ## Mindestliste (Demo 09.02.)
 
-Alles hier muss in der spielbaren Demo zur Final Presentation am 09.02. stecken. Die Liste ist auf höchstens 8–10 Punkte begrenzt; was nicht reinpasst, kommt auf die Wunschliste.
+Alles hier muss in der spielbaren Demo zur Final Presentation am 09.02. stecken. Was nicht reinpasst, kommt auf die Wunschliste.
 
 **Abgabe am 09.02.:** GitHub-README, Pitch, 30-Sekunden-Trailer, spielbare Demo. Zwischenstände: 01.12. erstes Blocking und Gliederung des ganzen Spiels, 12.01. komplette Demo im Blockout.
-
-**Achtung Umfang:** Im Bereich „Mindestliste“ liegen inzwischen rund 25 Notes, deutlich mehr als die vereinbarten 8–10. Vor allem Level-Generierung und die Fortschritts-Modelle sind neu hinzugekommen.
-
 ### Gefahren
 
 Es gibt zwei Arten von Gefahren: stationäre Gefahren und Gegner.
@@ -172,12 +166,12 @@ Es gibt zwei Arten von Gefahren: stationäre Gefahren und Gegner.
 **Stationäre Gefahren**
 
 - **Entschieden:** Feste Gefahren im Level, tödlich für alle Boids – eigene und gegnerische. Dadurch kann man Gegner auch in Gefahren locken.
-- **Offen:** Welche konkreten Gefahren? Theme ist Unterwasser – Kandidaten: Angelhaken, Fischernetze, Ölflecken, Abwasserrohre.
+- **Offen:** Welche konkreten Gefahren? Theme ist Unterwasser – Kandidaten: Angelhaken, Fischernetze, Ölflecken, Abwasserrohre (Jana: Umweltverschmutzung durch Menschen als Theme).
 
 **Gegner**
 
 - **Entschieden:** Gegner sind eine eigene Mechanik.
-- **Vorläufig (auf dem Board in Klammern):** Gegner sind ebenfalls Boids. Sie folgen der Spur des Schwarms oder bewegen sich zufällig und töten Boids bei Kontakt. Ihre Stärke zeigt sich an ihrer Größe: Ein Gegner tötet je nach Stärke eine bestimmte Anzahl Boids, bevor er selbst stirbt. Der Spieler weicht aus oder lockt Gegner in Fallen.
+- **Vermutlich verworfen:** Gegner sind ebenfalls Boids. Sie folgen der Spur des Schwarms oder bewegen sich zufällig und töten Boids bei Kontakt. Ihre Stärke zeigt sich an ihrer Größe: Ein Gegner tötet je nach Stärke eine bestimmte Anzahl Boids, bevor er selbst stirbt. Der Spieler weicht aus oder lockt Gegner in Fallen.
 - **Offen:** Können Boids angreifen oder nur fliehen?
 - **Offen:** Folgen Gegner der Spur (setzt das Spurfeld voraus) oder bewegen sie sich zufällig?
 - **Vorschlag:** Für die Demo genau einen Gegnertyp bauen. Weitere Typen kommen auf die Wunschliste. Der Gegner wird per Reinforcement Learning gesteuert (technischer Anker), siehe „Gegner im Prototyp“.
@@ -201,17 +195,18 @@ Es gibt zwei Arten von Gefahren: stationäre Gefahren und Gegner.
 
 ### Performance
 
-Große Schwärme brauchen Performance-Optimierungen. Für die CPU in GDScript gilt:
+Große Schwärme brauchen Performance-Optimierungen. 
 
-1. Spatial Grid für die Nachbarsuche, gebaut aus flachen Arrays statt Dictionaries.
-2. Nachbarn pro Boid begrenzen (etwa 7–10). Stare orientieren sich an etwa 6–7 Nachbarn, das ist auch biologisch begründet.
-3. Distanzen quadriert vergleichen, keine Wurzel nur für den Radius-Check.
-4. Alle Transformationen in einem Aufruf an das MultiMesh übergeben (`RenderingServer.multimesh_set_buffer`).
-5. Keine Physik-Abfragen und keine Nodes pro Boid; Hindernisse über ein Distanzfeld abfragen.
-6. Keine Speicher-Allokationen pro Frame; Arrays auf Maximalgröße vorbelegen.
-7. Nur bei Bedarf: Steuerung nur für einen Teil der Boids pro Frame neu berechnen (Time-Slicing).
+> [!NOTE] KI Ideen
+> 1. Spatial Grid für die Nachbarsuche, gebaut aus flachen Arrays statt Dictionaries.
+> 2. Nachbarn pro Boid begrenzen (etwa 7–10). Stare orientieren sich an etwa 6–7 Nachbarn, das ist auch biologisch begründet.
+> 3. Distanzen quadriert vergleichen, keine Wurzel nur für den Radius-Check.
+> 4. Alle Transformationen in einem Aufruf an das MultiMesh übergeben (`RenderingServer.multimesh_set_buffer`).
+> 5. Keine Physik-Abfragen und keine Nodes pro Boid; Hindernisse über ein Distanzfeld abfragen.
+> 6. Keine Speicher-Allokationen pro Frame; Arrays auf Maximalgröße vorbelegen.
+> 7. Nur bei Bedarf: Steuerung nur für einen Teil der Boids pro Frame neu berechnen (Time-Slicing).
 
-GDScript schafft mit Grid etwa einige hundert Boids flüssig, 1.000 mit Sorgfalt. Für mehrere tausend Boids braucht es den GPU-Schwarm (Wunschliste). Früh messen!
+KI Vorhersage: GDScript schafft mit Grid etwa einige hundert Boids flüssig, 1.000 mit Sorgfalt. Für mehrere tausend Boids braucht es den GPU-Schwarm (Wunschliste). Früh messen!
 
 ### Technischer Anker
 
@@ -222,20 +217,19 @@ GDScript schafft mit Grid etwa einige hundert Boids flüssig, 1.000 mit Sorgfalt
 
 ### Ziel, Verlieren & Fortschritt
 
-Diese Punkte liegen inzwischen in der Mindestliste:
-
 - **Ziel (Frederik, Leon):** Von A nach B, möglichst viele Schwarmmitglieder retten. Score = Zahl der Geretteten am Ende.
 - **Neu:** Savezone = Checkpoint.
 - **Aufbau:** Zusammenhängende Abschnitte ohne Ladescreens, getrennt durch Savezones. Dort ist man sicher, sammelt sich und zählt Überlebende.
 
-Zur Wahl stehen vier Modelle:
+Zur Wahl stehen folgende Modelle:
 
-| Modell | Von | Kern |
-| --- | --- | --- |
-| Mindestquote | Katharina | Mindestens ein Anteil des Schwarms (z. B. 50 %) muss die Savezone erreichen. |
-| Verloren statt tot | Katharina | Mitglieder sterben nicht, sondern gehen verloren und sind in diesem oder einem anderen Level wiederzufinden. Ziel: alle finden. |
-| Run | Jana | So weit wie möglich kommen. Reicht die Zahl der Überlebenden nicht für das nächste Level, zerfällt der Run. |
-| Replay | Jana | Erreichte Levels erneut spielen und perfektionieren, mit Belohnung. |
+| Modell             | Von       | Kern                                                                                                                                                                                                                   |
+| ------------------ | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mindestquote       | Katharina | Mindestens ein Anteil des Schwarms (z. B. 50 %) muss die Savezone erreichen.                                                                                                                                           |
+| Verloren statt tot | Katharina | Mitglieder sterben nicht, sondern gehen verloren und sind in diesem oder einem anderen Level wiederzufinden. Ziel: alle finden.                                                                                        |
+| Run                | Jana      | So weit wie möglich kommen. Reicht die Zahl der Überlebenden nicht für das nächste Level, zerfällt der Run.                                                                                                            |
+| Replay             | Jana      | Erreichte Levels erneut spielen und perfektionieren, mit Belohnung.                                                                                                                                                    |
+| Checkpoints        | Leon      | Falls alle Boids in einem Abschnitt sterben, wird man zu letzten Savezone zurückgesetzt. Die Anzahl der Boids entspricht entweder der Zahl mit der man diese Savezone erreicht hat oder einer vorgegebenen Mindeszahl. |
 
 - **Entschieden, vorerst (06.11.):** Möglichst viele Boids ins Ziel bringen.
 - **Offen:** Was passiert, wenn alle Boids sterben? Welches der Modelle kommt später dazu?
@@ -291,17 +285,16 @@ Diese Punkte wollen wir und sie passen zum Konzept. Sie kommen dran, sobald die 
 | Korallen, Steine, Haie | Katharina | Statische und bewegte Hindernisse unter Wasser. |
 | Fallende Steine | Katharina | Werden vorher durch Staub angekündigt; bringt mehr „Fractured“ ins Spiel. |
 
-Das Theme ist Unterwasser (06.11.), fast alle Ideen passen direkt. Sprünge aus dem Wasser funktionieren gut in der Seitenansicht.
 
 ### Items und Spezialfähigkeiten
 
-| Item / Fähigkeit | Von | Wirkung |
-| --- | --- | --- |
-| Großer Fisch | Jana | Der Schwarm vereint sich kurz zu einem großen Fisch und kann dann nicht von Gegnern getötet werden (einschüchtern). |
-| Speed | Jana | Kurzzeitig schneller. |
-| Field-Upgrade | Jana | Mehr, stärkere oder länger wirkende Gravity Fields. Längere Fields könnten Balancing-Probleme machen. |
-| Formen bilden | Ariusha | Boids formen aktiv oder per Power-Up eine Leiter oder Brücke, um ein Hindernis zu überwinden (wie Nanobots). |
-| Käfig befreien | Ariusha | Gefangene Boids durch Attacken auf einen Käfig befreien. Setzt voraus, dass Boids angreifen können. |
+| Item / Fähigkeit | Von     | Wirkung                                                                                                             |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------------- |
+| Großer Fisch     | Jana    | Der Schwarm vereint sich kurz zu einem großen Fisch und kann dann nicht von Gegnern getötet werden (einschüchtern). |
+| Speed            | Jana    | Kurzzeitig schneller.                                                                                               |
+| Field-Upgrade    | Jana    | Mehr, stärkere oder länger wirkende Gravity Fields. Längere Fields könnten Balancing-Probleme machen.               |
+| Formen bilden    | Ariusha | Boids formen aktiv oder per Power-Up eine Leiter oder Brücke, um ein Hindernis zu überwinden (wie Nanobots).        |
+| Käfig befreien   | Ariusha | Gefangene Boids durch Attacken auf einen Käfig befreien. Setzt voraus, dass Boids angreifen können.                 |
 
 ## Ideen zur Inspiration
 
@@ -309,15 +302,14 @@ Hier steht alles, was interessant ist, aber noch nicht eingeordnet wurde. Diese 
 
 ### Theme und Story
 
-| Idee | Von | Kern |
-| --- | --- | --- |
+| Idee                     | Von             | Kern                                                                                                                                                                                               |
+| ------------------------ | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Fischschwarm und Fischer | Frederik, Jakob | Der Fischschwarm soll von Fischern in Netze getrieben werden. Der Spieler ist nicht Teil der Welt, eher ein Management-Spiel mit freier Kamera und Gravity-Objekten oder Fischfutter mit Cooldown. |
-| Kleiner Hai | Jakob | Ein kleiner Hai versucht, den großen Schwarm zu teilen, um einzelne Fische zu fressen – oder etwas Niedliches: er sucht einen Freund zum Spielen. |
-| Umweltschutz | Jana | Fische vor der Umweltverschmutzung der Menschen schützen. Hindernisse: Fischernetze, Plastikflaschen, Angelhaken, Öllecks, Abwasserrohre. |
-| Weltraum / Asteroid | Leon | Das Innere eines Asteroiden, dunkel; der leuchtende Schwarm im Glühwürmchen-Look ist die einzige Lichtquelle. Jakob: „Space-Theme geht eigentlich auch ganz gut.“ |
-| Gottähnliche Rolle | Leon | Der Spieler greift nur über Schwerkraft ein. Das erklärt die indirekte Steuerung. |
-| Junge, neugierige Boids | Ariusha | Boids sind am Anfang jung und neugierig, laufen herum und erkunden. Man muss sie zusammenhalten und beschützen. Später altern sie und halten besser zusammen. |
-| Entspannter Ton | Ariusha | Eher Relax als Action, mit coolen Effekten und Musik. Steht im Widerspruch zu Jakobs „nichts allzu Entspannendes“. |
+| Kleiner Hai              | Jakob           | Ein kleiner Hai versucht, den großen Schwarm zu teilen, um einzelne Fische zu fressen – oder etwas Niedliches: er sucht einen Freund zum Spielen.                                                  |
+| Umweltschutz             | Jana            | Fische vor der Umweltverschmutzung der Menschen schützen. Hindernisse: Fischernetze, Plastikflaschen, Angelhaken, Öllecks, Abwasserrohre.                                                          |
+| Gottähnliche Rolle       | Leon            | Der Spieler greift nur über Schwerkraft ein. Das erklärt die indirekte Steuerung.                                                                                                                  |
+| Junge, neugierige Boids  | Ariusha         | Boids sind am Anfang jung und neugierig, laufen herum und erkunden. Man muss sie zusammenhalten und beschützen. Später altern sie und halten besser zusammen.                                      |
+| Entspannter Ton          | Ariusha         | Eher Relax als Action, mit coolen Effekten und Musik. Steht im Widerspruch zu Jakobs „nichts allzu Entspannendes“.                                                                                 |
 
 **Entschieden am 06.11.:** Unterwasser. Der Weltraum-Vorschlag ist damit vom Tisch; der leuchtende Schwarm als Lichtquelle passt aber auch zur Tiefsee. Beim Ton hat sich das Team für „eher fordernd“ entschieden.
 
@@ -384,18 +376,17 @@ Am 06.11. hat das Team die acht Grundsatzfragen für den Prototyp entschieden. O
 - [ ] Rollen namentlich besetzen.
 - [ ] Gegner-Schnittstelle zwischen RL und Devs abstimmen (Vorschlag im Abschnitt „Gegner im Prototyp“).
 - [ ] Klären, welcher RL-Weg zum GDScript-Projekt passt: ONNX mit dem .NET-Editor oder Godot Native RL.
-- [ ] Mindestliste auf 8–10 Notes kürzen. Kandidat zum Verschieben: Level-Generierung, da RL jetzt der Anker ist.
 - [ ] Verlierbedingung festlegen: Was passiert, wenn alle Boids sterben?
 - [ ] Spielform bestätigen: Singleplayer, PC mit Maus und Tastatur.
 
 **Organisatorisch (Pflicht für den 17.11.):**
 
 - [x] Rollen für den Sprint festgelegt: Scrum Master, Art, Devs, RL.
-- [ ] GitHub-Board aufsetzen und die Prototyp-Tasks als Issues eintragen (Scrum Master).
+- [x] GitHub-Board aufsetzen und die Prototyp-Tasks als Issues eintragen (Scrum Master). ✅ 2026-11-08
 - [ ] Devlog für den 16.11. schreiben (Scrum Master).
 - [ ] Fragen an die Betreuer für den 17.11. sammeln, u. a.: Reichen RL-gesteuerte Gegner als technischer Anker?
 - [ ] Später einplanen, wer Outreach übernimmt (Website, Trailer); Outreach zählt zur Betreuernote.
-- [ ] Nächstes Meeting vor dem 16.11. vereinbaren.
+- [x] Nächstes Meeting vor dem 16.11. vereinbaren. ✅ 2026-11-08
 
 ### Später entscheiden
 

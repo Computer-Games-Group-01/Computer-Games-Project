@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://manageruid"]
+
+[ext_resource type="Script" uid="uid://i6tp8i23pu3v" path="res://SwarmManager.gd" id="1_manager"]
+[ext_resource type="PackedScene" uid="uid://boidsceneuid" path="res://Boid.tscn" id="2_boid"]
+
+[node name="SwarmManager" type="Node2D" unique_id=1840378738]
+position = Vector2(640, 360)
+script = ExtResource("1_manager")
+boid_scene = ExtResource("2_boid")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=961642770]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1218903350]
+
+[node name="Button" type="Button" parent="CanvasLayer" unique_id=802567671]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 116.0
+offset_bottom = 47.0
+text = "Split Swarm"
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_split_button_pressed"]

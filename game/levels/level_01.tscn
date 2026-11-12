@@ -7,12 +7,33 @@
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://fields/gravity_field.tscn" id="6_gravity"]
 [ext_resource type="PackedScene" path="res://fields/black_hole.tscn" id="7_hole"]
+[ext_resource type="PackedScene" path="res://obstacles/circle_obstacle.tscn" id="8_circle"]
+[ext_resource type="PackedScene" path="res://obstacles/rect_obstacle.tscn" id="9_rect"]
 
 [node name="Level01" type="Node2D"]
 script = ExtResource("1_level")
 tear_scene = ExtResource("6_gravity")
 
 [node name="Fields" type="Node2D" parent="."]
+
+[node name="Obstacles" type="Node2D" parent="."]
+
+[node name="Rock1" parent="Obstacles" instance=ExtResource("8_circle")]
+position = Vector2(3000, 1500)
+radius = 150.0
+
+[node name="Rock2" parent="Obstacles" instance=ExtResource("8_circle")]
+position = Vector2(4300, 2450)
+radius = 200.0
+
+[node name="Wall1" parent="Obstacles" instance=ExtResource("9_rect")]
+position = Vector2(2400, 2150)
+rotation = 0.5
+size = Vector2(700, 70)
+
+[node name="Wall2" parent="Obstacles" instance=ExtResource("9_rect")]
+position = Vector2(3900, 1000)
+size = Vector2(70, 700)
 
 [node name="FlockManager" parent="." instance=ExtResource("2_flock")]
 

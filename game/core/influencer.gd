@@ -1,3 +1,4 @@
+@tool
 class_name Influencer
 extends Node2D
 ## Basisklasse für ALLES, was Boids beeinflusst.
@@ -11,6 +12,8 @@ extends Node2D
 var target_swarm: Swarm = null
 ## Zum An-/Ausschalten, z. B. durch Schalter in Rätseln.
 var enabled: bool = true
+## true = der FlockManager ruft nach jeder Bewegung constrain() auf (für harte Kollisionen).
+var solid: bool = false
 
 
 func _ready() -> void:
@@ -20,6 +23,12 @@ func _ready() -> void:
 ## Beschleunigung (px/s²), die dieser Influencer auf den Boid ausübt.
 func get_force_on(_boid: Boid) -> Vector2:
 	return Vector2.ZERO
+
+
+## Nur für solid-Influencer: Boid-Position/-Geschwindigkeit nach der Bewegung korrigieren
+## (z. B. aus einem Hindernis herausschieben).
+func constrain(_boid: Boid) -> void:
+	pass
 
 
 ## Maximale Entfernung, in der dieser Influencer wirkt (schnelle Vorab-Prüfung).

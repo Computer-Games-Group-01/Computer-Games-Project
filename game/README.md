@@ -28,6 +28,7 @@ Neu in der Input-Map: `Feld entfernen`, `Feld größer`, `Feld kleiner`, `Feldty
 core/      influencer.gd (Basisklasse!), camera_controller.gd
 flock/     boid, swarm, flock_manager, flock_settings (+ .tres), Szenen
 fields/    gravity_field, black_hole, field_placer (Maussteuerung), Szenen
+obstacles/ obstacle (Basis), circle_obstacle, rect_obstacle + Szenen zum Reinziehen
 levels/    level.gd (verdrahtet alles), level_01.tscn
 ui/        hud
 scenes/    main.tscn
@@ -62,29 +63,24 @@ enemies/, tools/, art/, assets/, addons/   – noch leer, bereit für später
 
 ## Erweiterungs-Rezepte (so getestet)
 
-**Hindernis** – `fields/obstacle.gd` (weiche Abstoßung; im Test kamen Boids ohne Hindernis bis auf
-3 px ans Zentrum, mit Hindernis nie näher als 133 px bei Radius 120):
+**Hindernis** – fertig eingebaut (`obstacles/`). Im Editor: `circle_obstacle.tscn` oder
+`rect_obstacle.tscn` in die Level-Szene ziehen (unter `Obstacles`), `radius` bzw. `size` im
+Inspector setzen, Rechtecke einfach drehen (`rotation`) – fertig. Boids weichen ab `margin`
+weich aus und fließen an der Oberfläche entlang; zusätzlich schiebt eine harte Korrektur sie aus
+dem Hindernis heraus, falls doch mal eins durchkommt (Test: 0 Boid-Frames im Inneren, kleinster
+Abstand ≥ 35 px; ohne Hindernis liefen Boids bis ins Zentrum). Skalierung der Nodes bei 1 lassen.
+Eine neue Form (Polygon, Kapsel …) = `Obstacle` erweitern und nur `surface_distance()`,
+`surface_normal()` und `bounding_radius()` überschreiben.
 
-```gdscript
-class_name Obstacle
-extends Influencer
+**Hindernisse platzieren, Schritt für Schritt**
 
-@export var radius: float = 120.0
-@export var margin: float = 120.0
-@export var strength: float = 1800.0
+1. `levels/level_01.tscn` öffnen und den Node `Obstacles` auswählen.
+2. `obstacles/circle_obstacle.tscn` (oder `rect_obstacle.tscn`) aus dem FileSystem-Dock auf `Obstacles` ziehen.
+3. Mit dem Verschieben-Werkzeug (W) im 2D-Fenster platzieren. Im Inspector `Radius` bzw. `Size` und `Rotation` einstellen. Der Umriss ist im Editor sichtbar.
+4. Starten (F5). Weitere Hindernisse: Node duplizieren (Strg+D).
 
-func get_reach() -> float:
-	return radius + margin
-
-func get_force_on(boid: Boid) -> Vector2:
-	var away := boid.global_position - global_position
-	var d := maxf(away.length(), 0.001)
-	var t := 1.0 - clampf((d - radius) / margin, 0.0, 1.0)
-	return away / d * strength * t
-
-func _draw() -> void:
-	draw_circle(Vector2.ZERO, radius, Color(0.5, 0.5, 0.55))
-```
+Wichtig: Keine eigene Datei mit `class_name Obstacle` anlegen – die Klasse gibt es schon.
+Per Code: `var o := preload("res://obstacles/circle_obstacle.tscn").instantiate(); o.radius = 150.0; o.position = Vector2(2000, 1500); $Obstacles.add_child(o)`
 
 **Gegner** – `enemies/hunter.gd` (jagt den nächsten Schwarm, scheucht Boids, frisst nahe Boids;
 Werte so, dass er einige erwischt, aber nicht alle):
@@ -130,19 +126,35 @@ func get_force_on(boid: Boid) -> Vector2:
 `flock.get_boids_in_circle(pos, radius)` (Zielzonen: „bring 40 Boids hierher“),
 `flock.split_swarm()` / `merge_nearby()`.
 
-## Performance (Messwerte aus der Test-Umgebung, ohne Grafik)
+## Performance (Messwerte aus der Test-Umgebung: 1 CPU-Kern, ohne Grafik)
 
-| Boids | Zeit pro Frame |
-|---|---|
-| 180 (Standard) | ~3,5 ms |
-| ~1000, `steering_stride = 1` | ~50 ms |
-| ~1000, `steering_stride = 3` | ~18 ms |
+| Szenario | vorher | jetzt |
+|---|---|---|
+| 3 × 60 Boids | 6,1 ms | 2,7 ms |
+| 3 × 200 Boids, Spawn-Radius 200 | 28 ms | 12 ms (+ Mehrkern-Verteilung, siehe unten) |
+| 3 × 150, `steering_stride` 1 → 3 | – | 7,4 → 3,4 ms |
 
-Auf deinem Rechner wird es anders aussehen. Reicht es nicht: `steering_stride` erhöhen,
-`perception_radius` verkleinern; darüber hinaus Berechnung nach C# / GDExtension auslagern.
+Was passiert ist: Daten liegen in Packed-Arrays statt in Node-Eigenschaften, das Raster ist ein
+Counting-Sort ohne Dictionaries (3 zusammenhängende Bereiche pro Boid), und die Schwarm-Regeln
+laufen auf dem `WorkerThreadPool` (`use_threads`). Threads liefern bit-identische Ergebnisse wie
+Single-Thread (getestet); der Speed-up durch mehrere Kerne ließ sich in der Test-Umgebung nicht
+messen, da sie nur einen Kern hat. Weitere Hebel, in dieser Reihenfolge:
+`steering_stride` 2–3, `perception_radius` verkleinern (Kosten wachsen ~quadratisch),
+Darstellung auf `MultiMeshInstance2D` umstellen (falls das Rendering von Tausenden Nodes bremst),
+darüber hinaus C# / GDExtension.
+
+## Warum Boids nicht mehr wackeln
+
+Vorher: Cohesion/Separation benutzten `normalized()`. Ein Boid nahe am Schwerpunkt seiner Nachbarn
+bekam dadurch Vollgas in eine fast zufällige Richtung, und die Separation sprang bei 34 px von
+0 auf 100 %. Messung: 4,4° Richtungsänderung pro Frame, in 32 % der Frames Drehrichtungsumkehr.
+Jetzt: Cohesion wirkt wie eine Feder (im Zentrum = 0), Separation wächst weich mit der Nähe,
+Alignment gleicht an die mittlere Geschwindigkeit an, und die Darstellung dreht sich geglättet
+(`turn_smoothing`). Messung: ~0,02–0,2° pro Frame, keine Umkehrungen. Neu: `swarm_bond_*` holt
+Ausreißer weit weg vom Schwarm sanft zurück (greift im Normalfall nie).
 
 ## Bewusste Vereinfachungen
 
-* Hindernisse sind weiche Kräfte, keine harten Kollisionen.
+* Hindernisse sind Kreis und Rechteck (andere Formen: siehe oben, drei Funktionen).
 * Schwärme vereinen sich nicht von selbst (nur per Button/`merge_nearby`).
 * Boids sind einzelne Nodes mit `_draw()` – für mehrere Tausend später auf `MultiMeshInstance2D` umstellen.

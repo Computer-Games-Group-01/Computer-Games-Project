@@ -9,7 +9,10 @@ signal died(boid: Boid)
 @export var size: float = 13.0
 
 var velocity: Vector2 = Vector2.ZERO
+## Gesamtbeschleunigung des letzten Frames (nur zur Info/Debug).
 var acceleration: Vector2 = Vector2.ZERO
+## Anteil aus den Schwarm-Regeln (bleibt bei steering_stride > 1 zwischen den Updates erhalten).
+var flock_accel: Vector2 = Vector2.ZERO
 var swarm: Swarm = null
 var max_speed: float = 210.0
 var min_speed: float = 80.0

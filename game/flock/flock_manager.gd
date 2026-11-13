@@ -13,6 +13,8 @@ extends Node2D
 signal swarm_created(swarm: Swarm)
 signal swarm_removed(swarm: Swarm)
 signal boid_died(boid: Boid)
+## Ein Schwarm ist von selbst in mehrere Teile zerfallen (original bleibt das größte Teil).
+signal swarm_fragmented(original: Swarm, new_swarms: Array[Swarm])
 
 @export var settings: FlockSettings
 @export var boid_scene: PackedScene
@@ -27,6 +29,7 @@ var active_swarm: Swarm = null
 var debug_draw: bool = false
 
 const CHUNK := 32  # so viele Boids bearbeitet ein Thread-Auftrag am Stück
+const FRAG_SLICES := 8  # die Zusammenhangs-Prüfung wird auf so viele Frames verteilt
 
 var _all: Array[Boid] = []
 var _dead: Array[Boid] = []
@@ -62,6 +65,13 @@ var _coh_gain: float = 0.0
 var _max_force: float = 0.0
 var _stride: int = 1
 var _bond_gain: float = 0.0
+
+# --- Zerfall in Teile erkennen (Union-Find über "nahe Boids des gleichen Schwarms") ---
+var _uf := PackedInt32Array()
+var _frag_cursor: int = 0
+var _frag_n: int = -1
+var _frag_elapsed: float = 0.0
+var _frag_dirty: bool = true  # true = Prüfzyklus neu beginnen (Boids/Schwärme haben sich geändert)
 var _bond_r: float = 1.0
 
 
@@ -75,18 +85,19 @@ func _ready() -> void:
 # Schwärme erzeugen / verwalten
 # --------------------------------------------------------------------------
 
-func spawn_swarm(center: Vector2, count: int, spawn_radius: float) -> Swarm:
+## `scene` optional: andere Boid-Szene (z. B. andere Grafik für einen Gegner-Schwarm).
+func spawn_swarm(center: Vector2, count: int, spawn_radius: float, scene: PackedScene = null) -> Swarm:
 	var swarm := _create_swarm(swarm_colors[(_next_swarm_id - 1) % swarm_colors.size()])
 	var heading := randf() * TAU
 	for i in count:
-		var boid: Boid = boid_scene.instantiate()
+		var boid: Boid = (scene if scene != null else boid_scene).instantiate()
 		add_child(boid)
 		boid.position = center + Vector2.from_angle(randf() * TAU) * sqrt(randf()) * spawn_radius
 		boid.max_speed = settings.max_speed * randf_range(0.9, 1.1)
 		boid.min_speed = settings.min_speed
 		boid.velocity = Vector2.from_angle(heading + randf_range(-0.6, 0.6)) \
 				* randf_range(boid.min_speed, boid.max_speed)
-		boid.rotation = boid.velocity.angle()
+		boid.reset_visual()
 		boid.died.connect(_on_boid_died)
 		swarm.add(boid)
 		_all.append(boid)
@@ -107,6 +118,7 @@ func split_swarm(swarm: Swarm, axis: Vector2) -> Array[Swarm]:
 	sorted.sort_custom(func(a: Boid, b: Boid) -> bool:
 		return (a.position - center).dot(axis) < (b.position - center).dot(axis))
 
+	_frag_dirty = true
 	var half := _create_swarm(_shift_hue(swarm.color, 0.12))
 	@warning_ignore("integer_division")
 	var half_count := sorted.size() / 2
@@ -120,6 +132,7 @@ func split_swarm(swarm: Swarm, axis: Vector2) -> Array[Swarm]:
 func merge_swarms(into: Swarm, other: Swarm) -> void:
 	if into == other:
 		return
+	_frag_dirty = true
 	for boid in other.boids.duplicate():
 		into.add(boid)
 	_remove_swarm(other)
@@ -181,12 +194,14 @@ func _create_swarm(color: Color) -> Swarm:
 	swarm.color = color
 	_next_swarm_id += 1
 	swarms.append(swarm)
+	_frag_dirty = true
 	swarm_created.emit(swarm)
 	return swarm
 
 
 func _remove_swarm(swarm: Swarm) -> void:
 	swarms.erase(swarm)
+	_frag_dirty = true
 	if active_swarm == swarm:
 		active_swarm = swarms[0] if not swarms.is_empty() else null
 	swarm_removed.emit(swarm)
@@ -214,6 +229,7 @@ func _process(delta: float) -> void:
 	_frame += 1
 	_build_arrays()
 	_compute_flock_rules()
+	_update_fragmentation(delta)
 	_apply_forces_and_move(delta)
 	queue_redraw()
 
@@ -221,6 +237,7 @@ func _process(delta: float) -> void:
 func _purge_dead() -> void:
 	if _dead.is_empty():
 		return
+	_frag_dirty = true
 	for boid in _dead:
 		_all.erase(boid)
 		var swarm := boid.swarm
@@ -332,6 +349,7 @@ func _flock_rules(i: int) -> Vector2:
 	var my_sid: int = sid[i]
 	var cell: int = _boid_cell[i]
 	var cx: int = cell % _cols
+	@warning_ignore("integer_division")
 	var cy: int = (cell - cx) / _cols
 	var x0 := maxi(cx - 1, 0)
 	var x1 := mini(cx + 1, _cols - 1)
@@ -440,7 +458,10 @@ func _apply_forces_and_move(delta: float) -> void:
 			if boid.position.distance_squared_to(ipos[k]) <= ireach2[k]:
 				infs[k].constrain(boid)
 
-		boid.rotation = lerp_angle(boid.rotation, boid.velocity.angle(), turn_t)
+		if boid.simple_visual:
+			boid.rotation = lerp_angle(boid.rotation, boid.velocity.angle(), turn_t)
+		else:
+			boid.update_visual(delta, turn_t)
 
 
 func _boundary_force(pos: Vector2) -> Vector2:
@@ -456,6 +477,138 @@ func _boundary_force(pos: Vector2) -> Vector2:
 	elif pos.y > r.end.y - m:
 		push.y = -(pos.y - (r.end.y - m)) / m
 	return push * settings.boundary_force
+
+
+# --------------------------------------------------------------------------
+# Automatisches Teilen (Schwarm zerfällt in mehrere Teile)
+# --------------------------------------------------------------------------
+
+func _update_fragmentation(delta: float) -> void:
+	var s := settings
+	if not s.auto_split or _n < s.fragment_min_size * 2:
+		_frag_dirty = true
+		return
+	if _frag_dirty or _frag_n != _n:
+		_frag_dirty = false
+		_frag_n = _n
+		_uf.resize(_n)
+		for i in _n:
+			_uf[i] = i
+		_frag_cursor = 0
+		_frag_elapsed = 0.0
+	_frag_elapsed += delta
+
+	var link := minf(s.fragment_link_radius, s.perception_radius)
+	var link2 := link * link
+	var last := mini(_frag_cursor + ceili(float(_n) / FRAG_SLICES), _n)
+	for i in range(_frag_cursor, last):
+		var p: Vector2 = _pos[i]
+		var my: int = _sid[i]
+		var cell: int = _boid_cell[i]
+		var cx: int = cell % _cols
+		@warning_ignore("integer_division")
+		var cy: int = (cell - cx) / _cols
+		var x0 := maxi(cx - 1, 0)
+		var x1 := mini(cx + 1, _cols - 1)
+		for ny in range(maxi(cy - 1, 0), mini(cy + 1, _rows - 1) + 1):
+			var row := ny * _cols
+			for k in range(_cell_start[row + x0], _cell_start[row + x1 + 1]):
+				var j: int = _cell_items[k]
+				if j > i and _sid[j] == my and _pos[j].distance_squared_to(p) <= link2:
+					_uf_union(i, j)
+	_frag_cursor = last
+
+	if _frag_cursor >= _n:
+		var elapsed := _frag_elapsed
+		_frag_dirty = true  # nächster Zyklus beginnt von vorn
+		_evaluate_fragments(elapsed)
+
+
+func _uf_find(x: int) -> int:
+	while _uf[x] != x:
+		_uf[x] = _uf[_uf[x]]
+		x = _uf[x]
+	return x
+
+
+func _uf_union(a: int, b: int) -> void:
+	var ra := _uf_find(a)
+	var rb := _uf_find(b)
+	if ra != rb:
+		_uf[rb] = ra
+
+
+func _evaluate_fragments(cycle_time: float) -> void:
+	var counts := {}  # Wurzel -> Anzahl Boids des Teils
+	for i in _n:
+		var r := _uf_find(i)
+		counts[r] = counts.get(r, 0) + 1
+	var roots_by_slot := {}  # Schwarm-Slot -> Wurzeln der "großen" Teile
+	for r in counts:
+		if counts[r] >= settings.fragment_min_size:
+			var slot: int = _sid[r]
+			if not roots_by_slot.has(slot):
+				roots_by_slot[slot] = []
+			roots_by_slot[slot].append(r)
+
+	var to_split: Array[Swarm] = []
+	for swarm in swarms:
+		var roots: Array = roots_by_slot.get(swarm.slot, [])
+		if roots.size() >= 2:
+			swarm.frag_time += cycle_time
+			if swarm.frag_time >= settings.fragment_delay:
+				to_split.append(swarm)
+		else:
+			swarm.frag_time = 0.0
+
+	for swarm in to_split:
+		_split_into_fragments(swarm, roots_by_slot[swarm.slot], counts)
+
+
+func _split_into_fragments(swarm: Swarm, roots: Array, counts: Dictionary) -> void:
+	roots.sort_custom(func(a: int, b: int) -> bool: return counts[a] > counts[b])
+	var centers := {}
+	for r in roots:
+		centers[r] = Vector2.ZERO
+	for i in _n:
+		if _sid[i] == swarm.slot:
+			var r := _uf_find(i)
+			if centers.has(r):
+				centers[r] += _pos[i]
+	for r in roots:
+		centers[r] = centers[r] / float(counts[r])
+
+	# Größtes Teil behält den Schwarm, jedes weitere bekommt einen neuen.
+	var target := {}
+	var new_swarms: Array[Swarm] = []
+	for k in roots.size():
+		if k == 0:
+			target[roots[k]] = swarm
+		else:
+			var created := _create_swarm(_shift_hue(swarm.color, 0.12 * k))
+			target[roots[k]] = created
+			new_swarms.append(created)
+
+	for i in _n:
+		if _sid[i] != swarm.slot:
+			continue
+		var r := _uf_find(i)
+		if not target.has(r):
+			# kleiner Rest: gehört zum räumlich nächsten großen Teil
+			var best: int = roots[0]
+			var best_d := INF
+			for rr in roots:
+				var d := _pos[i].distance_squared_to(centers[rr])
+				if d < best_d:
+					best_d = d
+					best = rr
+			r = best
+		var dest: Swarm = target[r]
+		if dest != swarm:
+			dest.add(_all[i])
+
+	swarm.frag_time = 0.0
+	swarm_fragmented.emit(swarm, new_swarms)
 
 
 # --------------------------------------------------------------------------

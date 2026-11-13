@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://flock/boid.gd" id="1_boid"]
+[ext_resource type="Texture2D" path="res://art/boids/boid_placeholder.png" id="2_tex"]
+
+[node name="Boid" type="Sprite2D"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_tex")
+script = ExtResource("1_boid")

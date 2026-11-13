@@ -9,13 +9,15 @@ var color: Color = Color.WHITE
 var boids: Array[Boid] = []
 ## Index in FlockManager.swarms (pro Frame neu vergeben, für schnelle Array-Zugriffe).
 var slot: int = 0
+## Wie lange der Schwarm schon in mehrere Teile zerfallen ist (für automatisches Teilen).
+var frag_time: float = 0.0
 
 
 func add(boid: Boid) -> void:
 	if boid.swarm != null and boid.swarm != self:
 		boid.swarm.boids.erase(boid)
 	boid.swarm = self
-	boid.modulate = color
+	boid.apply_swarm_color(color)
 	boids.append(boid)
 
 

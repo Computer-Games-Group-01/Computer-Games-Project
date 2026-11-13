@@ -1,62 +1,76 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://c5ngp5grjdxmf"]
 
-[ext_resource type="Script" path="res://levels/level.gd" id="1_level"]
+[ext_resource type="Script" uid="uid://eekxrj5oqnnd" path="res://levels/level.gd" id="1_level"]
 [ext_resource type="PackedScene" path="res://flock/flock_manager.tscn" id="2_flock"]
-[ext_resource type="Script" path="res://fields/field_placer.gd" id="3_placer"]
-[ext_resource type="Script" path="res://core/camera_controller.gd" id="4_cam"]
+[ext_resource type="Script" uid="uid://b31tvlfhp7yhq" path="res://fields/field_placer.gd" id="3_placer"]
+[ext_resource type="Script" uid="uid://bx0n4wdgcfhm3" path="res://core/camera_controller.gd" id="4_cam"]
 [ext_resource type="PackedScene" path="res://ui/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://fields/gravity_field.tscn" id="6_gravity"]
 [ext_resource type="PackedScene" path="res://fields/black_hole.tscn" id="7_hole"]
 [ext_resource type="PackedScene" path="res://obstacles/circle_obstacle.tscn" id="8_circle"]
 [ext_resource type="PackedScene" path="res://obstacles/rect_obstacle.tscn" id="9_rect"]
 
-[node name="Level01" type="Node2D"]
+[node name="Level01" type="Node2D" unique_id=854275316]
 script = ExtResource("1_level")
+boids_per_swarm = 100
+spawn_radius = 200.0
 tear_scene = ExtResource("6_gravity")
 
-[node name="Fields" type="Node2D" parent="."]
+[node name="Fields" type="Node2D" parent="." unique_id=1926217870]
 
-[node name="Obstacles" type="Node2D" parent="."]
+[node name="Obstacles" type="Node2D" parent="." unique_id=1010667546]
 
-[node name="Rock1" parent="Obstacles" instance=ExtResource("8_circle")]
+[node name="Rock1" parent="Obstacles" unique_id=1443665209 instance=ExtResource("8_circle")]
 position = Vector2(3000, 1500)
 radius = 150.0
 
-[node name="Rock2" parent="Obstacles" instance=ExtResource("8_circle")]
+[node name="Rock2" parent="Obstacles" unique_id=1599917917 instance=ExtResource("8_circle")]
 position = Vector2(4300, 2450)
 radius = 200.0
 
-[node name="Wall1" parent="Obstacles" instance=ExtResource("9_rect")]
+[node name="Wall1" parent="Obstacles" unique_id=1540019162 instance=ExtResource("9_rect")]
 position = Vector2(2400, 2150)
 rotation = 0.5
 size = Vector2(700, 70)
 
-[node name="Wall2" parent="Obstacles" instance=ExtResource("9_rect")]
+[node name="Wall2" parent="Obstacles" unique_id=187377949 instance=ExtResource("9_rect")]
 position = Vector2(3900, 1000)
 size = Vector2(70, 700)
 
-[node name="FlockManager" parent="." instance=ExtResource("2_flock")]
+[node name="Wall3" parent="Obstacles" unique_id=1688202491 instance=ExtResource("9_rect")]
+position = Vector2(3566, 1927)
+rotation = 0.74700093
+scale = Vector2(1.3199999, 1)
+size = Vector2(70, 700)
 
-[node name="SwarmSpawns" type="Node2D" parent="."]
+[node name="FlockManager" parent="." unique_id=1469774625 instance=ExtResource("2_flock")]
 
-[node name="Spawn1" type="Marker2D" parent="SwarmSpawns"]
-position = Vector2(1800, 1500)
+[node name="SwarmSpawns" type="Node2D" parent="." unique_id=1797628391]
 
-[node name="Spawn2" type="Marker2D" parent="SwarmSpawns"]
-position = Vector2(3200, 2300)
+[node name="Spawn1" type="Marker2D" parent="SwarmSpawns" unique_id=1035302134]
+position = Vector2(1867, 1237)
 
-[node name="Spawn3" type="Marker2D" parent="SwarmSpawns"]
-position = Vector2(4700, 1400)
+[node name="Spawn5" type="Marker2D" parent="SwarmSpawns" unique_id=1318187462]
+position = Vector2(2569, 1233)
 
-[node name="FieldPlacer" type="Node2D" parent="." node_paths=PackedStringArray("fields_root")]
+[node name="Spawn2" type="Marker2D" parent="SwarmSpawns" unique_id=1442290385]
+position = Vector2(1968, 2605)
+
+[node name="Spawn3" type="Marker2D" parent="SwarmSpawns" unique_id=1890626433]
+position = Vector2(4487, 1158)
+
+[node name="Spawn4" type="Marker2D" parent="SwarmSpawns" unique_id=1575115237]
+position = Vector2(4161, 1951.0001)
+scale = Vector2(0.44080004, 0.6172767)
+
+[node name="FieldPlacer" type="Node2D" parent="." unique_id=1896230879 node_paths=PackedStringArray("fields_root")]
 script = ExtResource("3_placer")
 field_scenes = Array[PackedScene]([ExtResource("6_gravity"), ExtResource("7_hole")])
-field_names = PackedStringArray("Gravitation", "Schwarzes Loch")
 fields_root = NodePath("../Fields")
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." unique_id=1696601537]
 position = Vector2(3200, 1800)
 zoom = Vector2(0.6, 0.6)
 script = ExtResource("4_cam")
 
-[node name="Hud" parent="." instance=ExtResource("5_hud")]
+[node name="Hud" parent="." unique_id=1328820698 instance=ExtResource("5_hud")]

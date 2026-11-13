@@ -35,6 +35,7 @@ func _ready() -> void:
 	hud.split_requested.connect(split_active_swarm)
 	hud.merge_requested.connect(merge_nearby_swarms)
 	hud.next_swarm_requested.connect(select_next_swarm)
+	flock.swarm_fragmented.connect(_on_swarm_fragmented)
 	placer.field_type_changed.connect(hud.set_field_type)
 	hud.set_field_type(placer.current_type_name())
 
@@ -90,6 +91,10 @@ func split_active_swarm() -> void:
 	_spawn_tear_field(halves[0], center + axis * tear_distance, spread)
 	_spawn_tear_field(halves[1], center - axis * tear_distance, spread)
 	hud.flash("Schwarm #%d geteilt" % swarm.id)
+
+
+func _on_swarm_fragmented(original: Swarm, new_swarms: Array[Swarm]) -> void:
+	hud.flash("Schwarm #%d zerfallen in %d Teile" % [original.id, new_swarms.size() + 1])
 
 
 func merge_nearby_swarms() -> void:

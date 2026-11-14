@@ -16,6 +16,8 @@ Welt: 6400 × 3600 px, 3 Schwärme à 60 Boids an verschiedenen Startpunkten.
 | **Tab** / Button | Nächsten Schwarm aktivieren (Kamera fährt hin, Ring markiert ihn) |
 | WASD / Mausrad | Kamera / Zoom (zum Mauszeiger) |
 | F3 | Debug-Overlay (Schwerpunkte, Wahrnehmungsradien) |
+| **R** | Level neu starten |
+| **Enter** | Runde beenden (Erfolg, wenn das Mindestziel erreicht ist) |
 
 Hinweis: In deiner Input-Map ist Mausrad **hoch** = „zoom raus“. Fühlt sich das verkehrt an,
 einfach die beiden Namen in den Projekteinstellungen tauschen.
@@ -33,7 +35,9 @@ obstacles/ obstacle (Basis), circle_obstacle, rect_obstacle + Szenen zum Reinzie
 levels/    level.gd (verdrahtet alles), level_01.tscn
 ui/        hud
 scenes/    main.tscn
-enemies/, tools/, art/, assets/, addons/   – noch leer, bereit für später
+enemies/   enemy.gd
+art/       boids
+tools/, assets/, addons/   – noch leer, bereit für später
 ```
 
 ## Wie es funktioniert
@@ -141,6 +145,24 @@ func get_force_on(boid: Boid) -> Vector2:
 `removable = false` setzen, fertig. Es zieht je näher desto stärker und verschluckt am Kern
 (`boid.kill()`; Signal `FlockManager.boid_died` für Punktestand o. Ä.).
 
+### Ziel (`GoalZone`)
+Jeder Boid im Kreis gilt als gerettet und wird mit `kill()` entfernt (`get_boids_in_circle`,
+höchstens einen Frame alt). Das Signal `boids_rescued(amount)` zählt der Level.
+Auch gerettete Boids lösen `FlockManager.boid_died` aus.
+
+### Gegner (`Enemy`, ein `Influencer`)
+Patrouilliert (`patrol_offsets`, relativ zur Startposition), verfolgt Boids in `sight_range`,
+scheucht Boids im `scare_radius` weg und tötet sie im `kill_radius`.
+| Einstellung | Standard | Wirkung |
+|---|---|---|
+| `kill_radius` | 40 | Boids darin werden getötet |
+| `scare_radius` | 320 | Boids darin werden weggedrückt |
+| `scare_strength` | 1200 | Stärke des Wegdrückens |
+| `chase_speed` | 260 | muss über der Boid-Geschwindigkeit liegen (ca. 190–230), sonst fängt er nichts |
+| `sight_range` | 500 | 0 = verfolgt nicht (Wächter) |
+| `patrol_speed`, `patrol_offsets` | 120, leer | leer = steht still |
+
+
 **Rätsel-Bausteine**, die schon da sind:
 `influencer.enabled` (Schalter), `target_swarm` (Feld wirkt nur auf einen Schwarm),
 `removable = false` (feste Felder), `lifetime` (temporäre Felder),
@@ -205,3 +227,14 @@ der logische nächste Schritt.
 * Hindernisse sind Kreis und Rechteck (andere Formen: siehe oben, drei Funktionen).
 * Schwärme teilen sich von selbst (siehe oben), vereinen sich aber nicht von selbst (nur per Button/`merge_nearby`).
 * Boids sind einzelne Nodes mit `_draw()` – für mehrere Tausend später auf `MultiMeshInstance2D` umstellen.
+
+## Spielziel: Start, Ziel, Gegner
+
+Gerettet werden müssen mindestens `required_rescue_ratio` (Standard 0,5) aller Boids.
+
+### Sieg und Niederlage
+
+- Alle Boids weg (gerettet oder gestorben): Sieg, wenn das Mindestziel erreicht ist, sonst Niederlage.
+- Niederlage auch früher, sobald das Mindestziel rechnerisch nicht mehr erreichbar ist.
+- **Enter** beendet die Runde vorzeitig, **R** startet neu.
+- Das HUD zeigt "Gerettet: x / y (Ziel: z)".

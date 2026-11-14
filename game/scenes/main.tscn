@@ -4,4 +4,5 @@
 
 [node name="Main" type="Node2D" unique_id=572570801]
 
-[node name="Level" parent="." instance=ExtResource("1_level")]
+[node name="Level" parent="." unique_id=495099417 instance=ExtResource("1_level")]
+tear_scene = null

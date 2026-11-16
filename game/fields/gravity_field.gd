@@ -17,7 +17,7 @@ const MAX_RADIUS := 1400.0
 ## Max. Beschleunigung (px/s²), mit der das Feld an Boids zieht.
 @export var strength: float = 900.0
 ## Ringradius als Anteil von `radius`, auf dem Boids kreisen (0 = zum Zentrum).
-@export_range(0.0, 0.9, 0.01) var orbit_ratio: float = 0.35
+@export_range(0.0, 0.9, 0.01) var orbit_ratio: float = 0.15
 ## 0 = nur anziehen, 1 = überwiegend kreisen.
 @export_range(0.0, 1.0, 0.01) var swirl: float = 0.7
 @export var clockwise: bool = true

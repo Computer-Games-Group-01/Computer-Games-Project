@@ -1,14 +1,7 @@
 [gd_scene format=3 uid="uid://cf4josvlj3d2h"]
 
 [ext_resource type="PackedScene" path="res://levels/level_01.tscn" id="1_level"]
-[ext_resource type="PackedScene" path="res://obstacles/circle_obstacle.tscn" id="2_0wfyh"]
 
 [node name="Main" type="Node2D" unique_id=572570801]
 
-[node name="Level" parent="." unique_id=441687994 instance=ExtResource("1_level")]
-
-[node name="CircleObstacle" parent="." unique_id=1125115047 instance=ExtResource("2_0wfyh")]
-position = Vector2(3515, 1852)
-
-[node name="CircleObstacle2" parent="." unique_id=341977949 instance=ExtResource("2_0wfyh")]
-position = Vector2(1917, 2445)
+[node name="Level" parent="." instance=ExtResource("1_level")]

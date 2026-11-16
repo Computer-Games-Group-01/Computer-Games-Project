@@ -28,6 +28,7 @@ Neu in der Input-Map: `Feld entfernen`, `Feld größer`, `Feld kleiner`, `Feldty
 core/      influencer.gd (Basisklasse!), camera_controller.gd
 flock/     boid, swarm, flock_manager, flock_settings (+ .tres), Szenen
 fields/    gravity_field, black_hole, field_placer (Maussteuerung), Szenen
+art/boids/ Platzhalter-Grafik, Sprite-Sheet-Vorlage + Anleitung fürs Art-Team
 obstacles/ obstacle (Basis), circle_obstacle, rect_obstacle + Szenen zum Reinziehen
 levels/    level.gd (verdrahtet alles), level_01.tscn
 ui/        hud
@@ -52,6 +53,26 @@ enemies/, tools/, art/, assets/, addons/   – noch leer, bereit für später
   ins Kreisen über.
 * **FlockSettings** (`flock/default_flock_settings.tres`): Geschwindigkeit, Wahrnehmung,
   Gewichte, Weltrand, Performance. Im Inspector live änderbar.
+
+## Aussehen der Boids (Art-Pipeline)
+
+Ein Boid ist ein `Sprite2D` (`flock/boid.tscn`) mit einer Platzhalter-Pixelgrafik
+(`art/boids/boid_placeholder.png`). Das Art-Team tauscht nur die PNG oder die `Texture` im
+Inspector – am Code ändert sich nichts. Details und Regeln für die Grafiken:
+`art/boids/README.md`.
+
+* **Ausrichtung** (`facing_mode`): `ROTATE` (stufenlos drehen), `FLIP` (nur spiegeln, Seitenansicht),
+  `DIRECTIONAL` (Sprite-Sheet mit z. B. 8 Richtungs-Frames; Spalten = Richtungen im Uhrzeigersinn ab Osten).
+* **Animation:** Zeilen = Frames (`vframes`), `animation_fps` > 0.
+* **Schwarmfarbe:** wird mit der Grafik multipliziert, `swarm_tint_strength` 1 = voll … 0 = Originalfarben.
+* **Pixelart-Schärfe:** `texture_filter = Nearest` ist an der Boid-Szene gesetzt. Für das ganze Projekt:
+  Projekteinstellungen → Rendering → Textures → *Default Texture Filter* = Nearest.
+* **Verschiedene Looks:** geerbte Szene anlegen und `flock.spawn_swarm(pos, count, radius, szene)` nutzen.
+* Ohne Textur zeichnet der Boid wieder den Vektorpfeil (Notbehelf).
+
+Hinweis: Der Kamera-Zoom ist stufenlos (z. B. 0,6×). Bei Pixelart kann das leichte Unschärfe/Flimmern
+einzelner Pixel geben; pixelgenaue Zoomstufen (0,5× / 1× / 2×) wären ein kleiner nächster Schritt.
+Die Sprites sind bewusst bei 200 % Skalierung gesetzt, damit sie bei Zoom 0,6 gut erkennbar sind.
 
 ## Wo drehe ich was?
 
@@ -153,8 +174,34 @@ Alignment gleicht an die mittlere Geschwindigkeit an, und die Darstellung dreht 
 (`turn_smoothing`). Messung: ~0,02–0,2° pro Frame, keine Umkehrungen. Neu: `swarm_bond_*` holt
 Ausreißer weit weg vom Schwarm sanft zurück (greift im Normalfall nie).
 
+## Automatisches Teilen (Schwarm zerfällt in neue Schwärme)
+
+Zerfällt ein Schwarm durch ein Hindernis, ein Feld oder ein schwarzes Loch dauerhaft in mehrere
+größere Teile, wird jedes Teil ein eigener Schwarm (eigene Farbe, eigener Zusammenhalt).
+Technik: Boids des gleichen Schwarms, die näher als `fragment_link_radius` beieinander sind,
+gelten als verbunden (Union-Find über das vorhandene Raster). Die Prüfung ist auf 8 Frames
+verteilt und kostet praktisch nichts (600 Boids: 9,5 → 9,6 ms). Das größte Teil behält den
+bisherigen Schwarm, jedes weitere bekommt einen neuen; Teile unter `fragment_min_size` Boids
+schließen sich dem nächsten Teil an. Signal: `FlockManager.swarm_fragmented(original, new_swarms)`.
+
+Einstellungen in `default_flock_settings.tres` (Gruppe „Automatisches Teilen“):
+
+| Einstellung | Wirkung |
+|---|---|
+| `auto_split` | an/aus |
+| `fragment_delay` (1,2 s) | so lange müssen die Teile getrennt bleiben. Höher = weniger Teilungen, kurzes Auseinanderfließen an einem Hindernis zählt nicht |
+| `fragment_min_size` (8) | kleinere Teile werden nicht zum eigenen Schwarm |
+| `fragment_link_radius` (80 px) | ab diesem Abstand sind Boids „getrennt“ |
+
+Getestet: 90 s freier Flug ohne Hindernisse = 0 Fehlalarme (60 und 200 Boids pro Schwarm);
+Schwarm frontal auf einen Kreis (r = 250): Teilung in 59 + 41; zwei gegenüberliegende Felder:
+Schwarm wird in zwei neue Schwärme gerissen. Eine breite Wand bringt den Schwarm dagegen zum
+Umdrehen statt zum Zerfallen – das hängt von Hindernisgröße und Schwarmbreite ab.
+Wieder zusammenführen geht per Button/Taste M (`merge_nearby`); ein automatisches Vereinen wäre
+der logische nächste Schritt.
+
 ## Bewusste Vereinfachungen
 
 * Hindernisse sind Kreis und Rechteck (andere Formen: siehe oben, drei Funktionen).
-* Schwärme vereinen sich nicht von selbst (nur per Button/`merge_nearby`).
+* Schwärme teilen sich von selbst (siehe oben), vereinen sich aber nicht von selbst (nur per Button/`merge_nearby`).
 * Boids sind einzelne Nodes mit `_draw()` – für mehrere Tausend später auf `MultiMeshInstance2D` umstellen.

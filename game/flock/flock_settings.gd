@@ -42,3 +42,16 @@ extends Resource
 ## 1 = jeder Boid berechnet die Regeln in jedem Frame.
 ## 2 oder 3 = nur jeder 2./3. Boid pro Frame (reihum) – spart entsprechend Rechenzeit.
 @export_range(1, 6) var steering_stride: int = 1
+
+@export_group("Automatisches Teilen")
+## Zerfällt ein Schwarm (z. B. durch ein Hindernis oder zwei Felder) dauerhaft in mehrere
+## größere Teile, wird jedes Teil ein eigener Schwarm.
+@export var auto_split: bool = true
+## Boids des gleichen Schwarms gelten als verbunden, wenn sie näher als dies beieinander sind
+## (wird auf perception_radius begrenzt).
+@export var fragment_link_radius: float = 80.0
+## Teile mit weniger Boids zählen nicht als eigener Schwarm, sie schließen sich dem nächsten Teil an.
+@export var fragment_min_size: int = 8
+## So lange (Sekunden) müssen die Teile getrennt bleiben, bevor geteilt wird
+## (kurzes Auseinanderfließen an einem Hindernis zählt nicht).
+@export var fragment_delay: float = 1.2

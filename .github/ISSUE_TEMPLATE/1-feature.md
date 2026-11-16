@@ -1,6 +1,6 @@
 ---
 name: Neues Feature
-about: Größere neue Funktion oder Mechanik, die geplant werden muss
+about: Größere neue Funktion oder Mechanik oder Coding Aufgabe, die geplant werden muss
 title: "[Feature] "
 labels: ""
 assignees: ""

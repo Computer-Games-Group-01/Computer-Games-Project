@@ -3,15 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://etwhosruvdgy"
-path="res://.godot/imported/boid_placeholder.png-8914f8a826b4d73562a468c3cd2461bf.ctex"
-metadata={
-"vram_texture": false
-}
+valid=false
 
 [deps]
 
 source_file="res://art/boids/boid_placeholder.png"
-dest_files=["res://.godot/imported/boid_placeholder.png-8914f8a826b4d73562a468c3cd2461bf.ctex"]
 
 [params]
 

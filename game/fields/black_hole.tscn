@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://fields/black_hole.gd" id="1_hole"]
+
+[node name="BlackHole" type="Node2D"]
+script = ExtResource("1_hole")
+radius = 420.0
+strength = 900.0
+swirl = 0.6
+color = Color(0.75, 0.35, 1, 1)
+core_radius = 30.0

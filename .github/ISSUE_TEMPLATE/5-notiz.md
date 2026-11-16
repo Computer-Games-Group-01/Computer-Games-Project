@@ -4,6 +4,7 @@ about: Bekannten Fehler, Eigenheit oder Verhalten festhalten – kein direkter A
 title: "[Notiz] "
 labels: ""
 assignees: ""
+type: Note
 ---
 
 ## Notiz

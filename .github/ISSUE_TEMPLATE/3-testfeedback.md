@@ -4,7 +4,7 @@ about: Beim Testen aufgefallen – funktioniert, sollte aber anders sein
 title: "[Feedback] "
 labels: ""
 assignees: ""
-type: Task
+type: Feedback
 ---
 
 ## Beobachtung

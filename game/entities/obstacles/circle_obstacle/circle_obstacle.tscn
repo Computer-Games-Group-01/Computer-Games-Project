@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cq71bgy5p5odh" path="res://entities/obstacles/circle_obstacle/circle_obstacle.gd" id="1_circle"]
+
+[node name="CircleObstacle" type="Node2D"]
+script = ExtResource("1_circle")

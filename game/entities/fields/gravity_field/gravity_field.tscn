@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cybe6v63hhqm3" path="res://entities/fields/gravity_field/gravity_field.gd" id="1_field"]
+
+[node name="GravityField" type="Node2D"]
+script = ExtResource("1_field")

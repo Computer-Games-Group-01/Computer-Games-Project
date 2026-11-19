@@ -43,17 +43,14 @@ metadata/_custom_type_script = "uid://3ey0h3khn872"
 [node name="Spawn1" type="Marker2D" parent="SwarmSpawns" unique_id=1483574404]
 position = Vector2(182, 1041)
 script = ExtResource("6_qdeet")
-boid_count = 0
 
 [node name="Spawn2" type="Marker2D" parent="SwarmSpawns" unique_id=352179646]
 position = Vector2(1230, 531)
 script = ExtResource("6_qdeet")
-boid_count = 0
 
 [node name="Spawn3" type="Marker2D" parent="SwarmSpawns" unique_id=1560462959]
 position = Vector2(4269, 731)
 script = ExtResource("6_qdeet")
-boid_count = 0
 
 [node name="PlayerController" type="Node2D" parent="." unique_id=710125282 node_paths=PackedStringArray("fields_root", "boid_world")]
 script = ExtResource("3_placer")

@@ -31,25 +31,25 @@ func current_type_name() -> String:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("Feld setzen"):
+	if event.is_action_pressed(InputActions.FIELD_PLACE):
 		_begin_place()
-	elif event.is_action_released("Feld setzen"):
+	elif event.is_action_released(InputActions.FIELD_PLACE):
 		_dragging = null
 	elif event is InputEventMouseMotion and _dragging != null:
 		var d := get_global_mouse_position().distance_to(_drag_origin)
 		if d > drag_threshold:
 			_dragging.radius = d
-	elif event.is_action_pressed("Feld entfernen"):
+	elif event.is_action_pressed(InputActions.FIELD_REMOVE):
 		var f := _field_under_cursor()
 		if f != null and f.removable:
 			f.queue_free()
-	elif event.is_action_pressed("Feldtyp wechseln") and not field_scenes.is_empty():
+	elif event.is_action_pressed(InputActions.FIELD_TYPE_NEXT) and not field_scenes.is_empty():
 		_type_index = (_type_index + 1) % field_scenes.size()
 		field_type_changed.emit(current_type_name())
 
 
 func _process(delta: float) -> void:
-	var axis := Input.get_axis("Feld kleiner", "Feld größer")
+	var axis := Input.get_axis(InputActions.FIELD_SHRINK, InputActions.FIELD_GROW)
 	if axis == 0.0:
 		return
 	var f := _field_under_cursor()

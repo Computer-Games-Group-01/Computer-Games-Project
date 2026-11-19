@@ -82,21 +82,18 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("Schwarm teilen"):
+	if event.is_action_pressed(InputActions.SWARM_SPLIT):
 		split_active_swarm()
-	elif event.is_action_pressed("Schwarm vereinen"):
+	elif event.is_action_pressed(InputActions.SWARM_MERGE):
 		merge_nearby_swarms()
-	elif event.is_action_pressed("Schwarm wechseln"):
+	elif event.is_action_pressed(InputActions.SWARM_NEXT):
 		select_next_swarm()
-	elif event.is_action_pressed("debug overlay"):
+	elif event.is_action_pressed(InputActions.DEBUG_OVERLAY):
 		flock.debug_draw = not flock.debug_draw
-	elif event is InputEventKey:
-		var key := event as InputEventKey
-		if key.pressed and not key.echo:
-			if key.keycode == KEY_R:
-				get_tree().reload_current_scene()
-			elif key.keycode == KEY_ENTER:
-				finish_round()
+	elif event.is_action_pressed(InputActions.ROUND_RESTART):
+		get_tree().reload_current_scene()
+	elif event.is_action_pressed(InputActions.ROUND_FINISH):
+		finish_round()
 
 
 func _process(delta: float) -> void:

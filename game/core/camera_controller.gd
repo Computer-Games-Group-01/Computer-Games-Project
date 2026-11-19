@@ -1,7 +1,6 @@
 class_name CameraController
 extends Camera2D
-## Kamera für die große Welt: WASD = verschieben, Mausrad = Zoom (zum Mauszeiger hin).
-## Nutzt die vorhandenen Input-Actions: hoch/links/runter/rechts, "zoom rein", "zoom raus".
+## missing documentation
 
 @export var pan_speed: float = 1100.0   # Bildschirm-Pixel pro Sekunde
 @export var zoom_step: float = 1.15
@@ -28,16 +27,17 @@ func focus_on(world_pos: Vector2, duration: float = 0.4) -> void:
 
 
 func _process(delta: float) -> void:
-	var dir := Input.get_vector("links", "rechts", "hoch", "runter")
+	var dir := Input.get_vector(InputActions.CAMERA_PAN_LEFT, InputActions.CAMERA_PAN_RIGHT,
+		InputActions.CAMERA_PAN_UP, InputActions.CAMERA_PAN_DOWN)
 	if dir != Vector2.ZERO:
 		global_position += dir * pan_speed * delta / zoom.x
 		global_position = global_position.clamp(_world_rect.position, _world_rect.end)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("zoom rein"):
+	if event.is_action_pressed(InputActions.CAMERA_ZOOM_IN):
 		_zoom_at_mouse(zoom_step)
-	elif event.is_action_pressed("zoom raus"):
+	elif event.is_action_pressed(InputActions.CAMERA_ZOOM_OUT):
 		_zoom_at_mouse(1.0 / zoom_step)
 
 

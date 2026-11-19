@@ -14,6 +14,10 @@ config/name="Boids"
 run/main_scene="uid://cf4josvlj3d2h"
 config/features=PackedStringArray("4.7")
 
+[autoload]
+
+Events="*uid://cbce1uifghsce"
+
 [debug]
 
 gdscript/warnings/untyped_declaration=1

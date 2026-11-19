@@ -14,6 +14,12 @@ config/name="Boids"
 run/main_scene="uid://cf4josvlj3d2h"
 config/features=PackedStringArray("4.7")
 
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
+
 [display]
 
 window/size/viewport_width=1920

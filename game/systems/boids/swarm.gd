@@ -7,7 +7,7 @@ extends RefCounted
 var id: int = 0
 var color: Color = Color.WHITE
 var boids: Array[Boid] = []
-## Index in FlockManager.swarms (pro Frame neu vergeben, für schnelle Array-Zugriffe).
+## Index in BoidWorld.swarms (pro Frame neu vergeben, für schnelle Array-Zugriffe).
 var slot: int = 0
 ## Wie lange der Schwarm schon in mehrere Teile zerfallen ist (für automatisches Teilen).
 var frag_time: float = 0.0

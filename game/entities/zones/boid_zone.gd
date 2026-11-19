@@ -1,18 +1,18 @@
 @tool
-class_name Influencer
+class_name BoidZone
 extends Node2D
 ## Basisklasse für ALLES, was Boids beeinflusst.
 ##
 ## Gravitationsfelder, schwarze Löcher – und später Hindernisse, Gegner,
 ## Windzonen, Magnete … – erben von dieser Klasse und überschreiben nur
-## get_force_on() und get_reach(). Der FlockManager kennt keine konkreten
+## get_force_on() und get_reach(). Der BoidWorld kennt keine konkreten
 ## Typen, er fragt einfach alle Nodes der Gruppe "influencers".
 
 ## Nur diesen Schwarm beeinflussen (null = alle Schwärme).
 var target_swarm: Swarm = null
 ## Zum An-/Ausschalten, z. B. durch Schalter in Rätseln.
 var enabled: bool = true
-## true = der FlockManager ruft nach jeder Bewegung constrain() auf (für harte Kollisionen).
+## true = der BoidWorld ruft nach jeder Bewegung constrain() auf (für harte Kollisionen).
 var solid: bool = false
 
 
@@ -20,18 +20,18 @@ func _ready() -> void:
 	add_to_group(&"influencers")
 
 
-## Beschleunigung (px/s²), die dieser Influencer auf den Boid ausübt.
+## Beschleunigung (px/s²), die dieser BoidZone auf den Boid ausübt.
 func get_force_on(_boid: Boid) -> Vector2:
 	return Vector2.ZERO
 
 
-## Nur für solid-Influencer: Boid-Position/-Geschwindigkeit nach der Bewegung korrigieren
+## Nur für solid-BoidZone: Boid-Position/-Geschwindigkeit nach der Bewegung korrigieren
 ## (z. B. aus einem Hindernis herausschieben).
 func constrain(_boid: Boid) -> void:
 	pass
 
 
-## Maximale Entfernung, in der dieser Influencer wirkt (schnelle Vorab-Prüfung).
+## Maximale Entfernung, in der dieser BoidZone wirkt (schnelle Vorab-Prüfung).
 func get_reach() -> float:
 	return 0.0
 

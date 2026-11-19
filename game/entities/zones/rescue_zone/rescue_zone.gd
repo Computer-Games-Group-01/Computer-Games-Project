@@ -1,5 +1,5 @@
 @tool
-class_name GoalZone
+class_name RescueZone
 extends Node2D
 ## Ziel: Jeder Boid im Kreis gilt als gerettet und verschwindet.
 
@@ -11,7 +11,7 @@ signal boids_rescued(amount: int)
 		queue_redraw()
 @export var color: Color = Color("81c784")
 
-var flock: FlockManager  # setzt Level._ready()
+var flock: BoidWorld  # setzt Level._ready()
 var rescued: int = 0
 
 func _process(_delta: float) -> void:

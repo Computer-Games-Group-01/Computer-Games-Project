@@ -2,7 +2,7 @@ class_name Boid
 extends Sprite2D
 ## Ein einzelner Boid: Zustand + Darstellung. Er IST der Sprite – die Grafik wird einfach
 ## im Inspector (oder durch Austausch der PNG-Datei) getauscht, am Code ändert sich nichts.
-## Die Steuerung berechnet der FlockManager.
+## Die Steuerung berechnet der BoidWorld.
 ##
 ## Sprite-Konventionen (siehe art/boids/README.md):
 ##   * Grafik blickt nach RECHTS.
@@ -35,7 +35,7 @@ var max_speed: float = 210.0
 var min_speed: float = 80.0
 var alive: bool = true
 
-## true = nur "drehen, keine Animation": der FlockManager setzt dann direkt die Rotation
+## true = nur "drehen, keine Animation": der BoidWorld setzt dann direkt die Rotation
 ## (schneller Pfad, spart pro Boid und Frame einen GDScript-Aufruf).
 var simple_visual: bool = true
 
@@ -59,7 +59,7 @@ func reset_visual() -> void:
 	update_visual(0.0, 1.0)
 
 
-## Pro Frame vom FlockManager aufgerufen. turn_t = Glättung der Drehung (0..1).
+## Pro Frame vom BoidWorld aufgerufen. turn_t = Glättung der Drehung (0..1).
 func update_visual(delta: float, turn_t: float) -> void:
 	_heading = lerp_angle(_heading, velocity.angle(), turn_t)
 
@@ -102,7 +102,7 @@ func _draw() -> void:
 
 
 ## Boid "stirbt" (schwarzes Loch, Gegner, Falle …). Entfernt wird er
-## vom FlockManager am Ende des Frames.
+## vom BoidWorld am Ende des Frames.
 func kill() -> void:
 	if not alive:
 		return

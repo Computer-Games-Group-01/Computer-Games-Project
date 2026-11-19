@@ -1,5 +1,5 @@
 class_name GravityField
-extends Influencer
+extends BoidZone
 ## Gravitationsfeld: zieht Boids an und lässt sie auf Wunsch umkreisen.
 ##
 ## Verhalten innerhalb von `radius`:

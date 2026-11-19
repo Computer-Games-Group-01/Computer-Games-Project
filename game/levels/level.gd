@@ -4,9 +4,9 @@ extends Node2D
 ## Neue Level = diese Szene duplizieren (oder erben) und Inhalte austauschen.
 ##
 ## Erwarteter Szenenaufbau:
-##   FlockManager, Fields, Camera, FieldPlacer, Hud
-##   SwarmSpawns  -> Kinder mit SwarmSpawn-Skript (Startpunkte)
-##   Goals        -> Kinder mit GoalZone-Skript (Ziele)
+##   BoidWorld, Fields, Camera, PlayerController, Hud
+##   SwarmSpawns  -> Kinder mit SpawnZone-Skript (Startpunkte)
+##   Goals        -> Kinder mit RescueZone-Skript (Ziele)
 ##   Enemies      -> Kinder mit Enemy-Skript (Gegner, optional)
 
 @export var world_rect: Rect2 = Rect2(0, 0, 6400, 3600)
@@ -24,10 +24,10 @@ extends Node2D
 @export_group("Schwärme vereinen")
 @export var merge_distance: float = 700.0
 
-@onready var flock: FlockManager = $FlockManager
+@onready var flock: BoidWorld = $BoidWorld
 @onready var fields: Node2D = $Fields
-@onready var camera: CameraController = $Camera
-@onready var placer: FieldPlacer = $FieldPlacer
+@onready var camera: CameraRig = $Camera
+@onready var placer: PlayerController = $PlayerController
 @onready var hud: Hud = $Hud
 
 var _info_timer: float = 0.0
@@ -59,14 +59,14 @@ func _ready() -> void:
 	# --- Ziele ---
 	if has_node("Goals"):
 		for node in $Goals.get_children():
-			var goal := node as GoalZone
+			var goal := node as RescueZone
 			if goal == null:
-				push_warning("%s unter Goals hat kein GoalZone-Skript!" % node.name)
+				push_warning("%s unter Goals hat kein RescueZone-Skript!" % node.name)
 				continue
 			goal.flock = flock
 			goal.boids_rescued.connect(_on_boids_rescued)
 
-	# --- Gegner (jeder Node mit einer "flock"-Variable bekommt den FlockManager) ---
+	# --- Gegner (jeder Node mit einer "flock"-Variable bekommt den BoidWorld) ---
 	if has_node("Enemies"):
 		for node in $Enemies.get_children():
 			if "flock" in node:
@@ -174,13 +174,13 @@ func _required_boids() -> int:
 	return ceili(_total_boids * required_rescue_ratio)
 
 
-## Ein Ziel hat Boids gerettet (die GoalZone ruft dafür boid.kill() auf).
+## Ein Ziel hat Boids gerettet (die RescueZone ruft dafür boid.kill() auf).
 func _on_boids_rescued(amount: int) -> void:
 	_rescued_boids += amount
 	_check_level_state()
 
 
-## Kommt vom FlockManager, NACHDEM der Boid aus der Liste entfernt wurde
+## Kommt vom BoidWorld, NACHDEM der Boid aus der Liste entfernt wurde
 ## -> flock.boid_count() stimmt hier. Deckt auch Tode durch Gegner ab.
 func _on_boid_died(_boid: Boid) -> void:
 	_check_level_state()

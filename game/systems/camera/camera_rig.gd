@@ -1,4 +1,4 @@
-class_name CameraController
+class_name CameraRig
 extends Camera2D
 ## missing documentation
 

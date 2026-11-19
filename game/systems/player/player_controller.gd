@@ -1,4 +1,4 @@
-class_name FieldPlacer
+class_name PlayerController
 extends Node2D
 ## Mausbedienung für Felder:
 ##   Linksklick            Feld setzen (Standardgröße)

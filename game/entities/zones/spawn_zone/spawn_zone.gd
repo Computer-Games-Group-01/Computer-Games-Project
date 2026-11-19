@@ -1,5 +1,5 @@
 @tool
-class_name SwarmSpawn
+class_name SpawnZone
 extends Node2D
 ## Startpunkt eines Schwarms (Kind von "SwarmSpawns" im Level).
 

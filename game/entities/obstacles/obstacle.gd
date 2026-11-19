@@ -1,6 +1,6 @@
 @tool
 class_name Obstacle
-extends Influencer
+extends BoidZone
 ## Basisklasse für Hindernisse. Boids weichen weich aus (Kraft im Bereich `margin`)
 ## und können zusätzlich nie hinein (harte Korrektur als Sicherheitsnetz).
 ##

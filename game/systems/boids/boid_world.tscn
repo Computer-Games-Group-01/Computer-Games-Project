@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b7o1dxv06unwr" path="res://systems/boids/boid.tscn" id="2_boid"]
 [ext_resource type="Resource" path="res://systems/boids/settings/default_flock_settings.tres" id="3_settings"]
 
-[node name="FlockManager" type="Node2D" unique_id=1882724438]
+[node name="BoidWorld" type="Node2D" unique_id=1882724438]
 script = ExtResource("1_mgr")
 settings = ExtResource("3_settings")
 boid_scene = ExtResource("2_boid")

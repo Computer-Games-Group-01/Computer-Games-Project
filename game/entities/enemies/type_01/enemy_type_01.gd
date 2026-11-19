@@ -1,6 +1,6 @@
 @tool
 class_name Enemy
-extends Influencer
+extends BoidZone
 ## Jäger: patrouilliert, verfolgt Boids in Sichtweite, tötet bei Berührung.
 
 @export var kill_radius: float = 40.0:
@@ -20,7 +20,7 @@ extends Influencer
 ## Patrouillenpunkte relativ zur Startposition. Leer = steht still.
 @export var patrol_offsets: Array[Vector2] = []
 
-var flock: FlockManager  # setzt Level._ready()
+var flock: BoidWorld  # setzt Level._ready()
 var _home: Vector2
 var _home_set: bool = false
 var _patrol_index: int = 0
@@ -31,7 +31,7 @@ func get_reach() -> float:
 	return maxf(scare_radius, kill_radius)
 
 
-## Wird vom FlockManager nur für Boids innerhalb von get_reach() aufgerufen.
+## Wird vom BoidWorld nur für Boids innerhalb von get_reach() aufgerufen.
 func get_force_on(boid: Boid) -> Vector2:
 	var away := boid.position - global_position
 	var d := away.length()

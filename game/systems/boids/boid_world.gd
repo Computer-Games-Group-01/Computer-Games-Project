@@ -1,4 +1,4 @@
-class_name FlockManager
+class_name BoidWorld
 extends Node2D
 ## Simuliert alle Boids.
 ##
@@ -8,7 +8,7 @@ extends Node2D
 ##   3. + Weltgrenzen + alle "influencers" (Gravitationsfelder usw.)
 ##   4. alle Boids gemeinsam bewegen
 ##
-## Der FlockManager bleibt bei Position (0,0) – Boid-Positionen sind Weltkoordinaten.
+## Der BoidWorld bleibt bei Position (0,0) – Boid-Positionen sind Weltkoordinaten.
 
 signal swarm_created(swarm: Swarm)
 signal swarm_removed(swarm: Swarm)
@@ -399,13 +399,13 @@ func _flock_rules(i: int) -> Vector2:
 
 
 func _apply_forces_and_move(delta: float) -> void:
-	# Influencer einmal pro Frame einsammeln (Felder, schwarze Löcher, Hindernisse, Gegner …)
-	var infs: Array[Influencer] = []
+	# BoidZone einmal pro Frame einsammeln (Felder, schwarze Löcher, Hindernisse, Gegner …)
+	var infs: Array[BoidZone] = []
 	var ipos := PackedVector2Array()
 	var ireach2 := PackedFloat32Array()
 	var solids: Array[int] = []
 	for node in get_tree().get_nodes_in_group(&"influencers"):
-		var inf := node as Influencer
+		var inf := node as BoidZone
 		if inf == null or not inf.enabled:
 			continue
 		var reach := inf.get_reach()

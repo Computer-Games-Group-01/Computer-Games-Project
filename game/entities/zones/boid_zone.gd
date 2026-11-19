@@ -1,23 +1,36 @@
 @tool
 class_name BoidZone
 extends Node2D
-## Basisklasse für ALLES, was Boids beeinflusst.
+## Base class for everything that affects boids: fields, obstacles, enemies, goals.
 ##
-## Gravitationsfelder, schwarze Löcher – und später Hindernisse, Gegner,
-## Windzonen, Magnete … – erben von dieser Klasse und überschreiben nur
-## get_force_on() und get_reach(). Der BoidWorld kennt keine konkreten
-## Typen, er fragt einfach alle Nodes der Gruppe "influencers".
+## The zone registers with the BoidWorld in setup(). The BoidWorld then calls
+## get_force_on() every frame for boids within reach, and constrain() as well
+## for solid zones. Subclasses override get_force_on() and get_reach().
 
-## Nur diesen Schwarm beeinflussen (null = alle Schwärme).
+## Affect only this swarm (null = all swarms).
 var target_swarm: Swarm = null
-## Zum An-/Ausschalten, z. B. durch Schalter in Rätseln.
+## Switches the zone on and off, e.g. from switches in puzzles.
 var enabled: bool = true
-## true = der BoidWorld ruft nach jeder Bewegung constrain() auf (für harte Kollisionen).
+## true = the BoidWorld calls constrain() after every move (hard collision).
 var solid: bool = false
+## The simulation, set by setup(). null = not registered yet.
+var boids: BoidWorld = null
 
 
 func _ready() -> void:
-	add_to_group(&"influencers")
+	add_to_group(&"uses_boids")
+
+
+## Called by World after loading the level, and by the PlayerController for placed fields.
+func setup(boid_world: BoidWorld) -> void:
+	boids = boid_world
+	boid_world.add_zone(self)
+
+
+func _exit_tree() -> void:
+	if boids != null:
+		boids.remove_zone(self)
+		boids = null
 
 
 ## Beschleunigung (px/s²), die dieser BoidZone auf den Boid ausübt.

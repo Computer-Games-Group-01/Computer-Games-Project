@@ -10,8 +10,6 @@ extends Node2D
 ##   Enemies      -> Kinder mit Enemy-Skript (Gegner, optional)
 
 @export var world_rect: Rect2 = Rect2(0, 0, 6400, 3600)
-@export var boids_per_swarm: int = 60
-@export var spawn_radius: float = 160.0
 ## Anteil der Boids, der mindestens gerettet werden muss.
 @export_range(0.1, 1.0, 0.05) var required_rescue_ratio: float = 0.5
 
@@ -41,36 +39,13 @@ func _ready() -> void:
 	flock.world_rect = world_rect
 	camera.set_world_rect(world_rect)
 
-	# --- Start: Schwärme an den Spawn-Punkten erzeugen ---
+	# Every building block in the level gets the simulation. Spawn points create their swarms here.
+	get_tree().call_group(&"uses_boids", &"setup", flock)
+	_total_boids = flock.boid_count()
 	var spawns := $SwarmSpawns.get_children()
-	for spawn in spawns:
-		var spawn_node := spawn as Node2D
-		if spawn_node == null:
-			continue
-		var r: float = spawn.radius if "radius" in spawn else spawn_radius
-		var n: int = spawn.boid_count if "boid_count" in spawn and spawn.boid_count > 0 \
-				else boids_per_swarm
-		flock.spawn_swarm(spawn_node.global_position, n, r)
-		_total_boids += n
-
 	if not spawns.is_empty():
 		camera.focus_on((spawns[0] as Node2D).global_position)
-
-	# --- Ziele ---
-	if has_node("Goals"):
-		for node in $Goals.get_children():
-			var goal := node as RescueZone
-			if goal == null:
-				push_warning("%s unter Goals hat kein RescueZone-Skript!" % node.name)
-				continue
-			goal.flock = flock
-			goal.boids_rescued.connect(_on_boids_rescued)
-
-	# --- Gegner (jeder Node mit einer "flock"-Variable bekommt den BoidWorld) ---
-	if has_node("Enemies"):
-		for node in $Enemies.get_children():
-			if "flock" in node:
-				node.flock = flock
+	Events.boids_rescued.connect(_on_boids_rescued)
 
 	hud.split_requested.connect(split_active_swarm)
 	hud.merge_requested.connect(merge_nearby_swarms)
@@ -137,6 +112,21 @@ func split_active_swarm() -> void:
 	_spawn_tear_field(halves[0], center + axis * tear_distance, spread)
 	_spawn_tear_field(halves[1], center - axis * tear_distance, spread)
 	hud.flash("Schwarm #%d geteilt" % swarm.id)
+	
+func _spawn_tear_field(target: Swarm, pos: Vector2, spread: float) -> void:
+	var field := tear_scene.instantiate() as GravityField
+	fields.add_child(field)
+	field.global_position = pos
+	field.radius = tear_distance + spread + 250.0
+	field.strength = tear_strength
+	field.orbit_ratio = 0.0
+	field.swirl = 0.0
+	field.lifetime = tear_duration
+	field.removable = false
+	field.color = target.color
+	field.fill_alpha = 0.02
+	field.target_swarm = target  # affects only its own half
+	field.setup(flock)
 
 
 func _on_swarm_fragmented(original: Swarm, new_swarms: Array[Swarm]) -> void:
@@ -150,20 +140,6 @@ func merge_nearby_swarms() -> void:
 	else:
 		hud.flash("Kein Schwarm in Reichweite zum Vereinen")
 
-
-func _spawn_tear_field(target: Swarm, pos: Vector2, spread: float) -> void:
-	var field := tear_scene.instantiate() as GravityField
-	fields.add_child(field)
-	field.global_position = pos
-	field.radius = tear_distance + spread + 250.0
-	field.strength = tear_strength
-	field.orbit_ratio = 0.0
-	field.swirl = 0.0
-	field.lifetime = tear_duration
-	field.removable = false
-	field.color = target.color
-	field.fill_alpha = 0.02
-	field.target_swarm = target  # wirkt nur auf "seine" Hälfte
 
 
 # --------------------------------------------------------------------------

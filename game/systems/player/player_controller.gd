@@ -17,6 +17,8 @@ signal field_type_changed(type_name: String)
 @export var default_radius: float = 280.0
 @export var drag_threshold: float = 14.0
 @export var resize_rate: float = 1.2  # Anteil pro Sekunde beim Halten von Q/E
+## The simulation. Placed fields are registered here.
+@export var boid_world: BoidWorld
 
 var _type_index: int = 0
 var _dragging: GravityField = null
@@ -66,6 +68,7 @@ func _begin_place() -> void:
 	fields_root.add_child(field)
 	field.global_position = get_global_mouse_position()
 	field.radius = default_radius
+	field.setup(boid_world)
 	_drag_origin = field.global_position
 	_dragging = field
 	_last_field = field

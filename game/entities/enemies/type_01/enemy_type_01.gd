@@ -20,7 +20,7 @@ extends BoidZone
 ## Patrouillenpunkte relativ zur Startposition. Leer = steht still.
 @export var patrol_offsets: Array[Vector2] = []
 
-var flock: BoidWorld  # setzt Level._ready()
+
 var _home: Vector2
 var _home_set: bool = false
 var _patrol_index: int = 0
@@ -51,8 +51,8 @@ func _process(delta: float) -> void:
 		_home_set = true
 
 	var prey := _nearest_boid()
-	if prey != null:
-		global_position = global_position.move_toward(prey.position, chase_speed * delta)
+	if prey >= 0:
+		global_position = global_position.move_toward(boids.position_of(prey), chase_speed * delta)
 		return
 	if patrol_offsets.is_empty():
 		return
@@ -62,18 +62,19 @@ func _process(delta: float) -> void:
 		_patrol_index = (_patrol_index + 1) % patrol_offsets.size()
 
 
-func _nearest_boid() -> Boid:
-	if flock == null or sight_range <= 0.0:
-		return null
-	var best: Boid = null
+## Index of the nearest boid in sight, -1 = none.
+func _nearest_boid() -> int:
+	if boids == null or sight_range <= 0.0:
+		return -1
+	var best := -1
 	var best_d := INF
-	for b in flock.get_boids_in_circle(global_position, sight_range):
-		var d := b.position.distance_squared_to(global_position)
+	for i in boids.query_circle(global_position, sight_range):
+		var d := boids.position_of(i).distance_squared_to(global_position)
 		if d < best_d:
 			best_d = d
-			best = b
+			best = i
 	return best
-
+	
 
 func _draw() -> void:
 	draw_circle(Vector2.ZERO, scare_radius, Color(1, 0.3, 0.3, 0.05))

@@ -1,9 +1,7 @@
 @tool
 class_name RescueZone
-extends Node2D
-## Ziel: Jeder Boid im Kreis gilt als gerettet und verschwindet.
-
-signal boids_rescued(amount: int)
+extends BoidZone
+## Goal: every boid inside the circle counts as rescued and disappears.
 
 @export var radius: float = 240.0:
 	set(v):
@@ -11,19 +9,14 @@ signal boids_rescued(amount: int)
 		queue_redraw()
 @export var color: Color = Color("81c784")
 
-var flock: BoidWorld  # setzt Level._ready()
-var rescued: int = 0
 
 func _process(_delta: float) -> void:
-	if flock == null:
+	if boids == null:
 		return
-	var caught := flock.get_boids_in_circle(global_position, radius)
-	if caught.is_empty():
-		return
-	for boid in caught:
-		boid.kill()  # alive = false -> wird nicht doppelt gezählt
-	rescued += caught.size()
-	boids_rescued.emit(caught.size())
+	var caught := boids.query_circle(global_position, radius)
+	if not caught.is_empty():
+		boids.rescue(caught)
+
 
 func _draw() -> void:
 	draw_circle(Vector2.ZERO, radius, Color(color, 0.12))

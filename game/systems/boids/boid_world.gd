@@ -33,6 +33,7 @@ const FRAG_SLICES := 8  # die Zusammenhangs-Prüfung wird auf so viele Frames ve
 
 var _all: Array[Boid] = []
 var _dead: Array[Boid] = []
+var _zones: Array[BoidZone] = []
 var _next_swarm_id: int = 1
 var _frame: int = 0
 
@@ -165,10 +166,10 @@ func select_next_swarm() -> void:
 	active_swarm = swarms[(i + 1) % swarms.size()]
 
 
-## Alle lebenden Boids im Kreis (für Ziele, Rätsel, Gegner-Treffer …).
-## Nutzt das Raster des letzten Frames, ist also höchstens einen Frame alt.
-func get_boids_in_circle(center: Vector2, radius: float) -> Array[Boid]:
-	var found: Array[Boid] = []
+## Indices of all living boids inside the circle.
+## Valid only until the BoidWorld's next frame, so do not store them.
+func query_circle(center: Vector2, radius: float) -> PackedInt32Array:
+	var found := PackedInt32Array()
 	if _n == 0:
 		return found
 	var x0 := clampi(floori((center.x - radius - _origin.x) * _inv_cell), 0, _cols - 1)
@@ -180,12 +181,56 @@ func get_boids_in_circle(center: Vector2, radius: float) -> Array[Boid]:
 		for k in range(_cell_start[cy * _cols + x0], _cell_start[cy * _cols + x1 + 1]):
 			var j := _cell_items[k]
 			if j < _all.size() and _pos[j].distance_squared_to(center) <= r2 and _all[j].alive:
-				found.append(_all[j])
+				found.append(j)
 	return found
 
 
+## Position of a boid returned by query_circle().
+func position_of(index: int) -> Vector2:
+	return _all[index].position
+
+
+## Rescues boids: they disappear and count for the round via Events.boids_rescued.
+func rescue(indices: PackedInt32Array) -> void:
+	var count := 0
+	for i in indices:
+		if _all[i].alive:
+			_all[i].kill()
+			count += 1
+	if count > 0:
+		Events.boids_rescued.emit(count)
+
+
+## Kills boids without counting them as rescued.
+func kill(indices: PackedInt32Array) -> void:
+	for i in indices:
+		_all[i].kill()
+
+
+## Removes all boids and swarms, e.g. when the level changes.
+func clear() -> void:
+	for boid in _all:
+		boid.queue_free()
+	_all.clear()
+	_dead.clear()
+	swarms.clear()
+	active_swarm = null
+	_next_swarm_id = 1
+	_n = 0
+	_frag_dirty = true
+
 func boid_count() -> int:
 	return _all.size()
+	
+## Registers a zone. Called by BoidZone.setup(), do not call it directly.
+func add_zone(zone: BoidZone) -> void:
+	if not _zones.has(zone):
+		_zones.append(zone)
+
+
+## Unregisters a zone. Called by BoidZone._exit_tree().
+func remove_zone(zone: BoidZone) -> void:
+	_zones.erase(zone)
 
 
 func _create_swarm(color: Color) -> Swarm:
@@ -404,11 +449,12 @@ func _apply_forces_and_move(delta: float) -> void:
 	var ipos := PackedVector2Array()
 	var ireach2 := PackedFloat32Array()
 	var solids: Array[int] = []
-	for node in get_tree().get_nodes_in_group(&"influencers"):
-		var inf := node as BoidZone
-		if inf == null or not inf.enabled:
+	for inf in _zones:
+		if not inf.enabled:
 			continue
 		var reach := inf.get_reach()
+		if reach <= 0.0:
+			continue
 		infs.append(inf)
 		ipos.append(inf.global_position)
 		ireach2.append(reach * reach)

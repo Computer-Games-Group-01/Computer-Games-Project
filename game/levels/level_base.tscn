@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://m8hlww5uhygp"]
+
+[ext_resource type="Script" uid="uid://cajksi1xc2iyr" path="res://levels/level_root.gd" id="1_hk6b7"]
+
+[node name="LevelBase" type="Node2D" unique_id=1397165770]
+script = ExtResource("1_hk6b7")
+
+[node name="Terrain" type="Node2D" parent="." unique_id=613200611]
+
+[node name="Spawns" type="Node2D" parent="." unique_id=2054372065]
+
+[node name="Goals" type="Node2D" parent="." unique_id=1485793609]
+z_index = 2
+
+[node name="Obstacles" type="Node2D" parent="." unique_id=562670060]
+
+[node name="Fields" type="Node2D" parent="." unique_id=556887336]
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1817732673]
+z_index = 2

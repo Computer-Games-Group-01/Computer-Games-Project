@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.7")
 [autoload]
 
 Events="*uid://cbce1uifghsce"
+GameState="*uid://dihmmvvka68hb"
 
 [debug]
 

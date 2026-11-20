@@ -1,64 +1,32 @@
-[gd_scene format=3 uid="uid://c5ngp5grjdxmf"]
+[gd_scene format=3 uid="uid://cac8ijdhglp4i"]
 
-[ext_resource type="Script" uid="uid://eekxrj5oqnnd" path="res://levels/level.gd" id="1_level"]
-[ext_resource type="PackedScene" uid="uid://dca471yrtlx6b" path="res://entities/fields/tear_field/tear_field.tscn" id="2_cfw67"]
-[ext_resource type="PackedScene" uid="uid://wapnw3gtnulp" path="res://systems/boids/boid_world.tscn" id="2_flock"]
+[ext_resource type="PackedScene" uid="uid://m8hlww5uhygp" path="res://levels/level_base.tscn" id="1_2n58o"]
+[ext_resource type="Resource" uid="uid://6egvh4jk5yit" path="res://levels/level_01/level_01.tres" id="2_thp0t"]
 [ext_resource type="PackedScene" uid="uid://cnrvx5ei7qcwg" path="res://entities/obstacles/pixel_map_obstacle/PixelMapObstacle.tscn" id="3_cfw67"]
-[ext_resource type="Script" uid="uid://b31tvlfhp7yhq" path="res://systems/player/player_controller.gd" id="3_placer"]
 [ext_resource type="Texture2D" uid="uid://l8l4oyhwsgh7" path="res://assets/level/map/level_01_background.png" id="3_xw3ee"]
 [ext_resource type="Texture2D" uid="uid://cfqv7l170d2a2" path="res://assets/level/map/level_01_walls.png" id="3_y72ps"]
-[ext_resource type="Script" uid="uid://bx0n4wdgcfhm3" path="res://systems/camera/camera_rig.gd" id="4_cam"]
-[ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="5_hud"]
-[ext_resource type="PackedScene" path="res://entities/fields/gravity_field/gravity_field.tscn" id="6_gravity"]
-[ext_resource type="PackedScene" path="res://entities/fields/black_hole/black_hole.tscn" id="7_hole"]
 [ext_resource type="PackedScene" uid="uid://coik4o7pf02md" path="res://entities/zones/spawn_zone/spawn_zone.tscn" id="7_ng00s"]
 [ext_resource type="PackedScene" uid="uid://ddtdft4yeopcs" path="res://entities/zones/rescue_zone/rescue_zone.tscn" id="12_ng00s"]
 [ext_resource type="PackedScene" uid="uid://ce2xf7cx60hjs" path="res://entities/enemies/type_01/enemy_type_01.tscn" id="14_cfw67"]
 
-[node name="Level01" type="Node2D" unique_id=2112331638]
-script = ExtResource("1_level")
-tear_scene = ExtResource("2_cfw67")
+[node name="Level01" unique_id=1397165770 instance=ExtResource("1_2n58o")]
+info = ExtResource("2_thp0t")
 
-[node name="PixelMapObstacle" parent="." unique_id=1070343 instance=ExtResource("3_cfw67")]
+[node name="PixelMapObstacle" parent="Terrain" parent_id_path=PackedInt32Array(613200611) index="0" unique_id=1070343 instance=ExtResource("3_cfw67")]
 position = Vector2(3219, 1898)
 map_texture = ExtResource("3_y72ps")
 pixel_scale = 5.0
 background_texture = ExtResource("3_xw3ee")
 
-[node name="Fields" type="Node2D" parent="." unique_id=1556653124]
-
-[node name="Obstacles" type="Node2D" parent="." unique_id=1171597080]
-
-[node name="BoidWorld" parent="." unique_id=919601015 instance=ExtResource("2_flock")]
-
-[node name="SwarmSpawns" type="Node2D" parent="." unique_id=574333221]
-
-[node name="SpawnZone" parent="SwarmSpawns" unique_id=1756997800 instance=ExtResource("7_ng00s")]
+[node name="SpawnZone" parent="Spawns" parent_id_path=PackedInt32Array(2054372065) index="0" unique_id=1756997800 instance=ExtResource("7_ng00s")]
 position = Vector2(449, 2935)
 gizmo_extents = 13.2
 
-[node name="SpawnZone2" parent="SwarmSpawns" unique_id=119834640 instance=ExtResource("7_ng00s")]
+[node name="SpawnZone2" parent="Spawns" parent_id_path=PackedInt32Array(2054372065) index="1" unique_id=463876618 instance=ExtResource("7_ng00s")]
 position = Vector2(483, 1449)
 
-[node name="PlayerController" type="Node2D" parent="." unique_id=710125282 node_paths=PackedStringArray("fields_root", "boid_world")]
-script = ExtResource("3_placer")
-field_scenes = Array[PackedScene]([ExtResource("6_gravity"), ExtResource("7_hole")])
-fields_root = NodePath("../Fields")
-boid_world = NodePath("../BoidWorld")
-
-[node name="Camera" type="Camera2D" parent="." unique_id=1379041211]
-position = Vector2(3200, 1800)
-zoom = Vector2(0.6, 0.6)
-script = ExtResource("4_cam")
-
-[node name="Hud" parent="." unique_id=641259885 instance=ExtResource("5_hud")]
-
-[node name="Goals" type="Node2D" parent="." unique_id=205828346]
-
-[node name="RescueZone" parent="Goals" unique_id=850718578 instance=ExtResource("12_ng00s")]
+[node name="RescueZone" parent="Goals" parent_id_path=PackedInt32Array(1485793609) index="0" unique_id=850718578 instance=ExtResource("12_ng00s")]
 position = Vector2(1576, 1930)
 
-[node name="Enemies" type="Node2D" parent="." unique_id=1232014441]
-
-[node name="EnemyType01" parent="Enemies" unique_id=1437521892 instance=ExtResource("14_cfw67")]
+[node name="EnemyType01" parent="Enemies" parent_id_path=PackedInt32Array(1817732673) index="0" unique_id=1437521892 instance=ExtResource("14_cfw67")]
 position = Vector2(712, 3166)

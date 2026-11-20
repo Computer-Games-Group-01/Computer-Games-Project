@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cnrvx5ei7qcwg"]
+
+[ext_resource type="Script" uid="uid://3ey0h3khn872" path="res://entities/obstacles/pixel_map_obstacle/pixel_map_obstacle.gd" id="1_rvgoq"]
+
+[node name="PixelMapObstacle" type="Node2D" unique_id=1070343]
+texture_filter = 1
+script = ExtResource("1_rvgoq")

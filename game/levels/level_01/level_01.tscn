@@ -1,56 +1,44 @@
 [gd_scene format=3 uid="uid://c5ngp5grjdxmf"]
 
 [ext_resource type="Script" uid="uid://eekxrj5oqnnd" path="res://levels/level.gd" id="1_level"]
+[ext_resource type="PackedScene" uid="uid://dca471yrtlx6b" path="res://entities/fields/tear_field/tear_field.tscn" id="2_cfw67"]
 [ext_resource type="PackedScene" uid="uid://wapnw3gtnulp" path="res://systems/boids/boid_world.tscn" id="2_flock"]
+[ext_resource type="PackedScene" uid="uid://cnrvx5ei7qcwg" path="res://entities/obstacles/pixel_map_obstacle/PixelMapObstacle.tscn" id="3_cfw67"]
 [ext_resource type="Script" uid="uid://b31tvlfhp7yhq" path="res://systems/player/player_controller.gd" id="3_placer"]
-[ext_resource type="Script" uid="uid://3ey0h3khn872" path="res://entities/obstacles/pixel_map_obstacle/pixel_map_obstacle.gd" id="3_qdeet"]
 [ext_resource type="Texture2D" uid="uid://l8l4oyhwsgh7" path="res://assets/level/map/level_01_background.png" id="3_xw3ee"]
 [ext_resource type="Texture2D" uid="uid://cfqv7l170d2a2" path="res://assets/level/map/level_01_walls.png" id="3_y72ps"]
 [ext_resource type="Script" uid="uid://bx0n4wdgcfhm3" path="res://systems/camera/camera_rig.gd" id="4_cam"]
 [ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://entities/fields/gravity_field/gravity_field.tscn" id="6_gravity"]
-[ext_resource type="Script" uid="uid://bxfprne1bhpot" path="res://entities/zones/spawn_zone/spawn_zone.gd" id="6_qdeet"]
 [ext_resource type="PackedScene" path="res://entities/fields/black_hole/black_hole.tscn" id="7_hole"]
-[ext_resource type="Script" uid="uid://c7khojs54lvvx" path="res://entities/zones/rescue_zone/rescue_zone.gd" id="10_kjd3d"]
-[ext_resource type="Script" uid="uid://dwiotx11k7pv6" path="res://entities/enemies/type_01/enemy_type_01.gd" id="11_qdeet"]
+[ext_resource type="PackedScene" uid="uid://coik4o7pf02md" path="res://entities/zones/spawn_zone/spawn_zone.tscn" id="7_ng00s"]
+[ext_resource type="PackedScene" uid="uid://ddtdft4yeopcs" path="res://entities/zones/rescue_zone/rescue_zone.tscn" id="12_ng00s"]
+[ext_resource type="PackedScene" uid="uid://ce2xf7cx60hjs" path="res://entities/enemies/type_01/enemy_type_01.tscn" id="14_cfw67"]
 
 [node name="Level01" type="Node2D" unique_id=2112331638]
 script = ExtResource("1_level")
-tear_scene = ExtResource("6_gravity")
+tear_scene = ExtResource("2_cfw67")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=761149360]
-texture_filter = 1
-offset_right = 6428.0
-offset_bottom = 3686.0
-mouse_filter = 2
-texture = ExtResource("3_xw3ee")
+[node name="PixelMapObstacle" parent="." unique_id=1070343 instance=ExtResource("3_cfw67")]
+position = Vector2(3219, 1898)
+map_texture = ExtResource("3_y72ps")
+pixel_scale = 5.0
+background_texture = ExtResource("3_xw3ee")
 
 [node name="Fields" type="Node2D" parent="." unique_id=1556653124]
 
 [node name="Obstacles" type="Node2D" parent="." unique_id=1171597080]
 
-[node name="PixelMapObstacle" type="Node2D" parent="Obstacles" unique_id=1015098510]
-position = Vector2(3219, 1898)
-script = ExtResource("3_qdeet")
-map_texture = ExtResource("3_y72ps")
-pixel_scale = 5.0
-metadata/_custom_type_script = "uid://3ey0h3khn872"
-
 [node name="BoidWorld" parent="." unique_id=919601015 instance=ExtResource("2_flock")]
 
 [node name="SwarmSpawns" type="Node2D" parent="." unique_id=574333221]
 
-[node name="Spawn1" type="Marker2D" parent="SwarmSpawns" unique_id=1483574404]
-position = Vector2(182, 1041)
-script = ExtResource("6_qdeet")
+[node name="SpawnZone" parent="SwarmSpawns" unique_id=1756997800 instance=ExtResource("7_ng00s")]
+position = Vector2(449, 2935)
+gizmo_extents = 13.2
 
-[node name="Spawn2" type="Marker2D" parent="SwarmSpawns" unique_id=352179646]
-position = Vector2(1230, 531)
-script = ExtResource("6_qdeet")
-
-[node name="Spawn3" type="Marker2D" parent="SwarmSpawns" unique_id=1560462959]
-position = Vector2(4269, 731)
-script = ExtResource("6_qdeet")
+[node name="SpawnZone2" parent="SwarmSpawns" unique_id=119834640 instance=ExtResource("7_ng00s")]
+position = Vector2(483, 1449)
 
 [node name="PlayerController" type="Node2D" parent="." unique_id=710125282 node_paths=PackedStringArray("fields_root", "boid_world")]
 script = ExtResource("3_placer")
@@ -67,20 +55,10 @@ script = ExtResource("4_cam")
 
 [node name="Goals" type="Node2D" parent="." unique_id=205828346]
 
-[node name="RescueZone" type="Node2D" parent="Goals" unique_id=1603996888]
-position = Vector2(6285, 2028)
-script = ExtResource("10_kjd3d")
-radius = 200.0
-metadata/_custom_type_script = "uid://c7khojs54lvvx"
+[node name="RescueZone" parent="Goals" unique_id=850718578 instance=ExtResource("12_ng00s")]
+position = Vector2(1576, 1930)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1232014441]
 
-[node name="Enemy" type="Node2D" parent="Enemies" unique_id=1809803648]
-position = Vector2(2230, 3222)
-script = ExtResource("11_qdeet")
-metadata/_custom_type_script = "uid://dwiotx11k7pv6"
-
-[node name="Enemy" type="Node2D" parent="Enemies/Enemy" unique_id=224644386]
-position = Vector2(2269, 3124)
-script = ExtResource("11_qdeet")
-metadata/_custom_type_script = "uid://dwiotx11k7pv6"
+[node name="EnemyType01" parent="Enemies" unique_id=1437521892 instance=ExtResource("14_cfw67")]
+position = Vector2(712, 3166)

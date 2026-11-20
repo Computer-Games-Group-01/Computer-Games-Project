@@ -8,6 +8,7 @@ extends Obstacle
 		map_texture = value
 		_rebuild_sdf()
 		queue_redraw()
+		update_configuration_warnings() 
 
 ## Wie viele Spiel-Pixel einem Bild-Pixel entsprechen (z.B. 4.0 bei Pixel-Art)
 @export var pixel_scale: float = 4.0:
@@ -25,6 +26,13 @@ extends Obstacle
 @export var draw_texture: bool = true:
 	set(value):
 		draw_texture = value
+		queue_redraw()
+		
+## Background image below the walls. Same pixel size as map_texture,
+## scaled and centred the same way.
+@export var background_texture: Texture2D:
+	set(value):
+		background_texture = value
 		queue_redraw()
 
 var _w: int = 0
@@ -92,10 +100,17 @@ func _sample_sdf(p: Vector2) -> float:
 
 
 func _draw() -> void:
+	var size := Vector2(_w, _h) * pixel_scale
+	if background_texture != null:
+		draw_texture_rect(background_texture, Rect2(-size * 0.5, size), false)
 	if draw_texture and map_texture != null:
-		var size := Vector2(_w, _h) * pixel_scale
 		draw_texture_rect(map_texture, Rect2(-size * 0.5, size), false)
 
+
+func _get_configuration_warnings() -> PackedStringArray:
+	if map_texture == null:
+		return PackedStringArray(["map_texture is missing: without a wall image there is no collision."])
+	return PackedStringArray()
 
 # --- Berechnung des Signed Distance Fields (Chamfer Distance Transform) ---
 

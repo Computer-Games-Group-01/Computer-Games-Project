@@ -16,8 +16,6 @@ extends Node2D
 @export_group("Schwarm teilen")
 @export var tear_scene: PackedScene
 @export var tear_distance: float = 520.0
-@export var tear_duration: float = 2.4
-@export var tear_strength: float = 1500.0
 
 @export_group("Schwärme vereinen")
 @export var merge_distance: float = 700.0
@@ -118,13 +116,6 @@ func _spawn_tear_field(target: Swarm, pos: Vector2, spread: float) -> void:
 	fields.add_child(field)
 	field.global_position = pos
 	field.radius = tear_distance + spread + 250.0
-	field.strength = tear_strength
-	field.orbit_ratio = 0.0
-	field.swirl = 0.0
-	field.lifetime = tear_duration
-	field.removable = false
-	field.color = target.color
-	field.fill_alpha = 0.02
 	field.target_swarm = target  # affects only its own half
 	field.setup(flock)
 

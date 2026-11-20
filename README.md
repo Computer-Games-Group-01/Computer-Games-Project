@@ -1,3 +1,5 @@
+# DEPRECATED; WILL BE UPDATED SOON
+
 # Computer Games Project Group 1
 
 Team project in the course Computer Games & Visual Effects (University of Tübingen, winter term 26/27) · Theme: _Fractured Gravity_

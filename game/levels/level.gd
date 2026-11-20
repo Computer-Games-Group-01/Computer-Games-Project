@@ -35,7 +35,7 @@ var _required_reached: bool = false
 
 func _ready() -> void:
 	flock.world_rect = world_rect
-	camera.set_world_rect(world_rect)
+	camera.set_bounds(world_rect)
 
 	# Every building block in the level gets the simulation. Spawn points create their swarms here.
 	get_tree().call_group(&"uses_boids", &"setup", flock)

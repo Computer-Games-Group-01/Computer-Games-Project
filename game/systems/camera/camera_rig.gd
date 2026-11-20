@@ -10,7 +10,7 @@ extends Camera2D
 var _world_rect: Rect2 = Rect2(0, 0, 6400, 3600)
 
 
-func set_world_rect(rect: Rect2) -> void:
+func set_bounds(rect: Rect2) -> void:
 	_world_rect = rect
 	limit_left = int(rect.position.x)
 	limit_top = int(rect.position.y)

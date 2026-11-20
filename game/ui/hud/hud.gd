@@ -1,6 +1,6 @@
 class_name Hud
-extends CanvasLayer
-## Anzeige + Buttons. Die HUD kennt die Spiellogik nicht – sie sendet nur Signale.
+extends Control
+## Display and buttons. Does not know the game logic: listens to Events and emits its own signals.
 
 signal split_requested
 signal merge_requested
@@ -11,6 +11,10 @@ signal next_swarm_requested
 @onready var _message: Label = %MessageLabel
 
 var _flash_tween: Tween
+var _swarm_count: int = 0
+var _boid_count: int = 0
+var _active_text: String = "–"
+var _result := RoundResult.new()
 
 
 func _ready() -> void:
@@ -18,17 +22,19 @@ func _ready() -> void:
 	%MergeButton.pressed.connect(func() -> void: merge_requested.emit())
 	%NextButton.pressed.connect(func() -> void: next_swarm_requested.emit())
 	_message.modulate.a = 0.0
-
-
-func set_info(text: String) -> void:
-	_info.text = text
+	Events.swarm_stats_changed.connect(_on_swarm_stats_changed)
+	Events.round_progress.connect(_on_round_progress)
+	Events.field_type_changed.connect(set_field_type)
+	Events.message.connect(flash)
+	Events.level_won.connect(_on_level_won)
+	Events.level_lost.connect(_on_level_lost)
 
 
 func set_field_type(type_name: String) -> void:
 	_field.text = "Feldtyp: %s  [F]" % type_name
 
 
-## Kurze Meldung, die sich selbst ausblendet.
+## Short message that fades out by itself.
 func flash(text: String) -> void:
 	_message.text = text
 	if _flash_tween != null:
@@ -37,3 +43,29 @@ func flash(text: String) -> void:
 	_flash_tween = create_tween()
 	_flash_tween.tween_interval(1.2)
 	_flash_tween.tween_property(_message, "modulate:a", 0.0, 0.6)
+
+
+func _on_swarm_stats_changed(swarm_count: int, boid_count: int, active_text: String) -> void:
+	_swarm_count = swarm_count
+	_boid_count = boid_count
+	_active_text = active_text
+	_update_info()
+
+
+func _on_round_progress(result: RoundResult) -> void:
+	_result = result
+	_update_info()
+
+
+func _update_info() -> void:
+	_info.text = "Schwärme: %d  ·  Boids: %d  ·  FPS: %d\nAktiver Schwarm: %s\nGerettet: %d / %d  (Ziel: %d)" % [
+			_swarm_count, _boid_count, Engine.get_frames_per_second(), _active_text,
+			_result.rescued, _result.total, _result.required]
+
+
+func _on_level_won(result: RoundResult) -> void:
+	flash("Level geschafft! %d / %d Fische gerettet (R = Neustart)" % [result.rescued, result.total])
+
+
+func _on_level_lost(result: RoundResult) -> void:
+	flash("Zu wenige Fische gerettet (%d / %d) – R = Neustart" % [result.rescued, result.required])

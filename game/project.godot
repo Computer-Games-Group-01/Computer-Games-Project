@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Boids"
-run/main_scene="uid://cf4josvlj3d2h"
+run/main_scene="uid://ciler0pdkuxqt"
 config/features=PackedStringArray("4.7")
 
 [autoload]

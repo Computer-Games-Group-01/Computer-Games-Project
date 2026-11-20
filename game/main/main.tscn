@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ciler0pdkuxqt"]
+
+[ext_resource type="Script" uid="uid://j31iquh6830r" path="res://main/main.gd" id="1_xwkvk"]
+[ext_resource type="PackedScene" uid="uid://lynx6owjv5je" path="res://main/world.tscn" id="2_c651c"]
+[ext_resource type="PackedScene" uid="uid://bm64yrd52fr3h" path="res://ui/hud/hud.tscn" id="3_3wy1v"]
+
+[node name="Main" type="Node" unique_id=1525665865]
+process_mode = 3
+script = ExtResource("1_xwkvk")
+
+[node name="World" parent="." unique_id=1755109644 instance=ExtResource("2_c651c")]
+unique_name_in_owner = true
+process_mode = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1169103372]
+
+[node name="Hud" parent="CanvasLayer" unique_id=1939080221 instance=ExtResource("3_3wy1v")]
+unique_name_in_owner = true

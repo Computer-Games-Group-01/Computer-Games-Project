@@ -688,3 +688,11 @@ func _draw() -> void:
 		var sample := active_swarm.boids[0]
 		draw_arc(sample.position, settings.perception_radius, 0.0, TAU, 48, Color(1, 1, 1, 0.35), 1.5 * px, true)
 		draw_arc(sample.position, settings.separation_radius, 0.0, TAU, 32, Color(1, 0.4, 0.4, 0.5), 1.5 * px, true)
+
+
+## Every 0.2 s reports swarm count, boid count and the active swarm for the HUD.
+func _on_stats_timer_timeout() -> void:
+	var active_text := "–"
+	if active_swarm != null:
+		active_text = "#%d (%d Boids)" % [active_swarm.id, active_swarm.size()]
+	Events.swarm_stats_changed.emit(swarms.size(), boid_count(), active_text)

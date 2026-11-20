@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c73viq0m35ooq"]
+
+[ext_resource type="Script" uid="uid://b31tvlfhp7yhq" path="res://systems/player/player_controller.gd" id="1_5cbfs"]
+[ext_resource type="Script" uid="uid://bv6osu3yxj83l" path="res://systems/player/field_type.gd" id="2_sil34"]
+[ext_resource type="Resource" uid="uid://mx2ppvw3uqf1" path="res://systems/player/field_types/gravity_field.tres" id="3_tlyc6"]
+[ext_resource type="Resource" uid="uid://bqs3ss8gb67v8" path="res://systems/player/field_types/black_hole.tres" id="4_cfycw"]
+[ext_resource type="PackedScene" uid="uid://dca471yrtlx6b" path="res://entities/fields/tear_field/tear_field.tscn" id="5_tbjhc"]
+
+[node name="PlayerController" type="Node2D" unique_id=2025256749]
+script = ExtResource("1_5cbfs")
+field_types = Array[ExtResource("2_sil34")]([ExtResource("3_tlyc6"), ExtResource("4_cfycw")])
+tear_scene = ExtResource("5_tbjhc")

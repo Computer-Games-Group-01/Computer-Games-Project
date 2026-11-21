@@ -29,4 +29,4 @@ position = Vector2(483, 1449)
 position = Vector2(1576, 1930)
 
 [node name="EnemyType01" parent="Enemies" parent_id_path=PackedInt32Array(1817732673) index="0" unique_id=1437521892 instance=ExtResource("14_cfw67")]
-position = Vector2(712, 3166)
+position = Vector2(1633, 3274)

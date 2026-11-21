@@ -2,12 +2,20 @@ class_name CameraRig
 extends Camera2D
 ## missing documentation
 
+
+
 @export var pan_speed: float = 1100.0   # Bildschirm-Pixel pro Sekunde
 @export var zoom_step: float = 1.15
 @export var min_zoom: float = 0.25
 @export var max_zoom: float = 2.0
+@export var zoom_enabled: bool = true
 
 var _world_rect: Rect2 = Rect2(0, 0, 6400, 3600)
+
+func _ready() -> void:
+	# set start zoom here
+	var zoom_amount: float = 0.7
+	zoom = Vector2(zoom_amount, zoom_amount)
 
 
 func set_bounds(rect: Rect2) -> void:
@@ -35,6 +43,8 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not zoom_enabled:
+		return
 	if event.is_action_pressed(InputActions.CAMERA_ZOOM_IN):
 		_zoom_at_mouse(zoom_step)
 	elif event.is_action_pressed(InputActions.CAMERA_ZOOM_OUT):

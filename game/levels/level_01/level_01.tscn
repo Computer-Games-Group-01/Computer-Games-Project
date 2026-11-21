@@ -13,7 +13,7 @@
 info = ExtResource("2_thp0t")
 
 [node name="PixelMapObstacle" parent="Terrain" parent_id_path=PackedInt32Array(613200611) index="0" unique_id=1070343 instance=ExtResource("3_cfw67")]
-position = Vector2(3219, 1898)
+position = Vector2(3198, 1802)
 map_texture = ExtResource("3_y72ps")
 pixel_scale = 5.0
 background_texture = ExtResource("3_xw3ee")

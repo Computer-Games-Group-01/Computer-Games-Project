@@ -19,7 +19,7 @@ script = ExtResource("1_cdjmh")
 [node name="Visual" type="Node2D" parent="." unique_id=221705334]
 
 [node name="Sprite" type="Sprite2D" parent="Visual" unique_id=1886342862]
-scale = Vector2(2.825, 2.825)
+scale = Vector2(3, 3)
 texture = ExtResource("2_nm1j3")
 flip_h = true
 

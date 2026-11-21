@@ -19,8 +19,8 @@ signal swarm_fragmented(original: Swarm, new_swarms: Array[Swarm])
 @export var settings: FlockSettings
 @export var boid_scene: PackedScene
 @export var swarm_colors: Array[Color] = [
-	Color("4fc3f7"), Color("ffb74d"), Color("81c784"),
-	Color("ba68c8"), Color("f06292"), Color("fff176"),
+	Color("913B65"), Color("8B2E49"), Color("BA3D4B"), Color("114038"), 
+	Color("#337961"), Color("#48497B"), Color("D36E45")
 ]
 
 var world_rect: Rect2 = Rect2(0, 0, 6400, 3600)

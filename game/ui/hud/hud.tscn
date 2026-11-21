@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://bm64yrd52fr3h"]
+
+[ext_resource type="Script" uid="uid://c6r4w4qswbrpr" path="res://ui/hud/hud.gd" id="1_hud"]
+
+[node name="Hud" type="Control" unique_id=1939080221]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_hud")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1445720227]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 340.0
+offset_bottom = 120.0
+
+[node name="Margin" type="MarginContainer" parent="Panel" unique_id=1359568373]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=889080598]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="InfoLabel" type="Label" parent="Panel/Margin/VBox" unique_id=1987649769]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Schwärme: –"
+
+[node name="FieldLabel" type="Label" parent="Panel/Margin/VBox" unique_id=185292056]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Feldtyp: –"
+
+[node name="SplitButton" type="Button" parent="Panel/Margin/VBox" unique_id=1077525968]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Schwarm teilen  [Space]"
+
+[node name="MergeButton" type="Button" parent="Panel/Margin/VBox" unique_id=357227278]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Nahe Schwärme vereinen  [M]"
+
+[node name="NextButton" type="Button" parent="Panel/Margin/VBox" unique_id=1410738276]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Nächster Schwarm  [Tab]"
+
+[node name="MessageLabel" type="Label" parent="." unique_id=1819225436]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 24.0
+offset_right = 300.0
+offset_bottom = 54.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+
+[node name="HelpLabel" type="Label" parent="." unique_id=2134975158]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -64.0
+offset_right = 1500.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.6)
+text = "Linksklick: Feld setzen (ziehen = Größe)  ·  Rechtsklick: Feld entfernen  ·  Q/E: Feld kleiner/größer  ·  F: Feldtyp
+WASD: Kamera  ·  Mausrad: Zoom  ·  Space: Schwarm teilen  ·  M: vereinen  ·  Tab: Schwarm wechseln  ·  F3: Debug"
+vertical_alignment = 2

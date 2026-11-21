@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://wapnw3gtnulp"]
+
+[ext_resource type="Script" uid="uid://ct23naq7mk08i" path="res://systems/boids/boid_world.gd" id="1_mgr"]
+[ext_resource type="PackedScene" uid="uid://b7o1dxv06unwr" path="res://systems/boids/boid.tscn" id="2_boid"]
+[ext_resource type="Resource" path="res://systems/boids/settings/default_flock_settings.tres" id="3_settings"]
+
+[node name="BoidWorld" type="Node2D" unique_id=1882724438]
+z_index = 1
+script = ExtResource("1_mgr")
+settings = ExtResource("3_settings")
+boid_scene = ExtResource("2_boid")
+
+[node name="StatsTimer" type="Timer" parent="." unique_id=1237543566]
+wait_time = 0.2
+autostart = true
+
+[connection signal="timeout" from="StatsTimer" to="." method="_on_stats_timer_timeout"]

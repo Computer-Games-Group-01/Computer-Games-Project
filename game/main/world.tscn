@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://lynx6owjv5je"]
+
+[ext_resource type="Script" uid="uid://cyciwxik5r3ml" path="res://main/world.gd" id="1_mnuad"]
+[ext_resource type="PackedScene" uid="uid://wapnw3gtnulp" path="res://systems/boids/boid_world.tscn" id="2_40bfn"]
+[ext_resource type="PackedScene" uid="uid://c73viq0m35ooq" path="res://systems/player/player_controller.tscn" id="3_gqj08"]
+[ext_resource type="PackedScene" uid="uid://d6lqkvhjmuk7" path="res://systems/camera/camera_rig.tscn" id="4_u80n0"]
+[ext_resource type="PackedScene" uid="uid://c26gl7orjxcro" path="res://main/round_rules.tscn" id="5_wjo4r"]
+
+[node name="World" type="Node2D" unique_id=1755109644]
+script = ExtResource("1_mnuad")
+
+[node name="LevelSlot" type="Node2D" parent="." unique_id=779588561]
+unique_name_in_owner = true
+
+[node name="PlayerFields" type="Node2D" parent="." unique_id=1385273981]
+unique_name_in_owner = true
+
+[node name="BoidWorld" parent="." unique_id=1882724438 instance=ExtResource("2_40bfn")]
+unique_name_in_owner = true
+
+[node name="PlayerController" parent="." unique_id=2025256749 node_paths=PackedStringArray("boid_world", "camera", "fields_root") instance=ExtResource("3_gqj08")]
+unique_name_in_owner = true
+boid_world = NodePath("../BoidWorld")
+camera = NodePath("../CameraRig")
+fields_root = NodePath("../PlayerFields")
+
+[node name="CameraRig" parent="." unique_id=1105588605 instance=ExtResource("4_u80n0")]
+unique_name_in_owner = true
+
+[node name="RoundRules" parent="." unique_id=1960143595 node_paths=PackedStringArray("boid_world") instance=ExtResource("5_wjo4r")]
+unique_name_in_owner = true
+boid_world = NodePath("../BoidWorld")

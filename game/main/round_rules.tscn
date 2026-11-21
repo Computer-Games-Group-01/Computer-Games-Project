@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c26gl7orjxcro"]
+
+[ext_resource type="Script" uid="uid://53xgpfn1c2s8" path="res://main/round_rules.gd" id="1_p5s73"]
+
+[node name="RoundRules" type="Node" unique_id=1960143595]
+script = ExtResource("1_p5s73")

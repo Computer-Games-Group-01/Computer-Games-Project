@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dca471yrtlx6b"]
+
+[ext_resource type="PackedScene" path="res://entities/fields/gravity_field/gravity_field.tscn" id="1_ret0x"]
+
+[node name="TearField" unique_id=662170903 instance=ExtResource("1_ret0x")]
+strength = 1500.0
+orbit_ratio = 0.0
+swirl = 0.0
+lifetime = 2.4
+removable = false
+fill_alpha = 0.02

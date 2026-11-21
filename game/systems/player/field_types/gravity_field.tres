@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="FieldType" format=3 uid="uid://mx2ppvw3uqf1"]
+
+[ext_resource type="Script" uid="uid://bv6osu3yxj83l" path="res://systems/player/field_type.gd" id="1_kyuj4"]
+[ext_resource type="PackedScene" path="res://entities/fields/gravity_field/gravity_field.tscn" id="1_t6svv"]
+
+[resource]
+script = ExtResource("1_kyuj4")
+display_name = "Gravity"
+scene = ExtResource("1_t6svv")
+metadata/_custom_type_script = "uid://bv6osu3yxj83l"

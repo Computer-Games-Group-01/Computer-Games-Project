@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cac8ijdhglp4i"]
+
+[ext_resource type="PackedScene" uid="uid://m8hlww5uhygp" path="res://levels/level_base.tscn" id="1_2n58o"]
+[ext_resource type="Resource" uid="uid://6egvh4jk5yit" path="res://levels/level_01/level_01.tres" id="2_thp0t"]
+[ext_resource type="PackedScene" uid="uid://cnrvx5ei7qcwg" path="res://entities/obstacles/pixel_map_obstacle/PixelMapObstacle.tscn" id="3_cfw67"]
+[ext_resource type="Texture2D" uid="uid://l8l4oyhwsgh7" path="res://assets/level/map/level_01_background.png" id="3_xw3ee"]
+[ext_resource type="Texture2D" uid="uid://cfqv7l170d2a2" path="res://assets/level/map/level_01_walls.png" id="3_y72ps"]
+[ext_resource type="PackedScene" uid="uid://coik4o7pf02md" path="res://entities/zones/spawn_zone/spawn_zone.tscn" id="7_ng00s"]
+[ext_resource type="PackedScene" uid="uid://ddtdft4yeopcs" path="res://entities/zones/rescue_zone/rescue_zone.tscn" id="12_ng00s"]
+[ext_resource type="PackedScene" uid="uid://ce2xf7cx60hjs" path="res://entities/enemies/type_01/enemy_type_01.tscn" id="14_cfw67"]
+
+[node name="Level01" unique_id=1397165770 instance=ExtResource("1_2n58o")]
+info = ExtResource("2_thp0t")
+
+[node name="PixelMapObstacle" parent="Terrain" parent_id_path=PackedInt32Array(613200611) index="0" unique_id=1070343 instance=ExtResource("3_cfw67")]
+position = Vector2(3198, 1802)
+map_texture = ExtResource("3_y72ps")
+pixel_scale = 5.0
+background_texture = ExtResource("3_xw3ee")
+
+[node name="SpawnZone" parent="Spawns" parent_id_path=PackedInt32Array(2054372065) index="0" unique_id=1756997800 instance=ExtResource("7_ng00s")]
+position = Vector2(449, 2935)
+gizmo_extents = 13.2
+
+[node name="SpawnZone2" parent="Spawns" parent_id_path=PackedInt32Array(2054372065) index="1" unique_id=463876618 instance=ExtResource("7_ng00s")]
+position = Vector2(483, 1449)
+
+[node name="RescueZone" parent="Goals" parent_id_path=PackedInt32Array(1485793609) index="0" unique_id=850718578 instance=ExtResource("12_ng00s")]
+position = Vector2(1576, 1930)
+
+[node name="EnemyType01" parent="Enemies" parent_id_path=PackedInt32Array(1817732673) index="0" unique_id=1437521892 instance=ExtResource("14_cfw67")]
+position = Vector2(712, 3166)

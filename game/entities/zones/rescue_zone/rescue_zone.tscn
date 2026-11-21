@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ddtdft4yeopcs"]
+
+[ext_resource type="Script" uid="uid://c7khojs54lvvx" path="res://entities/zones/rescue_zone/rescue_zone.gd" id="1_4pmhd"]
+
+[node name="RescueZone" type="Node2D" unique_id=850718578]
+script = ExtResource("1_4pmhd")

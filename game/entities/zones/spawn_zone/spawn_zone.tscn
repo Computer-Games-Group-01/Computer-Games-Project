@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://coik4o7pf02md"]
+
+[ext_resource type="Script" uid="uid://bxfprne1bhpot" path="res://entities/zones/spawn_zone/spawn_zone.gd" id="1_2btm3"]
+
+[node name="SpawnZone" type="Marker2D" unique_id=1756997800]
+script = ExtResource("1_2btm3")

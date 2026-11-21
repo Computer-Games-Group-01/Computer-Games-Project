@@ -1,6 +1,31 @@
 [gd_scene format=3 uid="uid://ce2xf7cx60hjs"]
 
 [ext_resource type="Script" uid="uid://dwiotx11k7pv6" path="res://entities/enemies/type_01/enemy_type_01.gd" id="1_cdjmh"]
+[ext_resource type="Texture2D" uid="uid://bc2hfh5ts1i8e" path="res://assets/enemies/SeaAngler.png" id="2_nm1j3"]
+[ext_resource type="Script" uid="uid://dknqp0aq7j7dm" path="res://entities/enemies/type_01/lure_light.gd" id="3_rm0t8"]
+
+[sub_resource type="Gradient" id="Gradient_018c4"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ewmgv"]
+gradient = SubResource("Gradient_018c4")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
 
 [node name="EnemyType01" type="Node2D" unique_id=1437521892]
 script = ExtResource("1_cdjmh")
+
+[node name="Visual" type="Node2D" parent="." unique_id=221705334]
+
+[node name="Sprite" type="Sprite2D" parent="Visual" unique_id=1886342862]
+scale = Vector2(2.825, 2.825)
+texture = ExtResource("2_nm1j3")
+flip_h = true
+
+[node name="LureLight" type="PointLight2D" parent="Visual" unique_id=1468541341]
+position = Vector2(35, -24)
+color = Color(1, 1, 0.101960786, 1)
+texture = SubResource("GradientTexture2D_ewmgv")
+texture_scale = 2.0
+script = ExtResource("3_rm0t8")

@@ -20,6 +20,17 @@ extends BoidZone
 ## Patrouillenpunkte relativ zur Startposition. Leer = steht still.
 @export var patrol_offsets: Array[Vector2] = []
 
+## Minimum horizontal speed (px/s) before the fish turns around.
+## Prevents flickering while chasing almost vertically.
+@export var flip_min_speed: float = 20.0
+
+## Holds sprite and light so both are mirrored together.
+@onready var _visual: Node2D = $Visual
+## Position of the previous frame, used to derive the movement direction.
+var _last_pos: Vector2
+## True while the debug radii are drawn (F3 overlay).
+var _debug_drawn: bool = false
+
 
 var _home: Vector2
 var _home_set: bool = false
@@ -49,7 +60,14 @@ func _process(delta: float) -> void:
 	if not _home_set:
 		_home = global_position
 		_home_set = true
-
+		_last_pos = global_position
+	# Before any early return, so facing updates in every movement state.
+	_update_facing(delta)
+	# Redraw only when the F3 debug overlay is toggled.
+	var dbg := boids != null and boids.debug_draw
+	if dbg != _debug_drawn:
+		_debug_drawn = dbg
+		queue_redraw()
 	var prey := _nearest_boid()
 	if prey >= 0:
 		global_position = global_position.move_toward(boids.position_of(prey), chase_speed * delta)
@@ -75,8 +93,19 @@ func _nearest_boid() -> int:
 			best = i
 	return best
 	
+	## Faces the visual in the direction of the last frame's movement.
+## The art faces right; moving left mirrors it.
+func _update_facing(delta: float) -> void:
+	var dx := global_position.x - _last_pos.x
+	_last_pos = global_position
+	if absf(dx) > flip_min_speed * delta:
+		_visual.scale.x = -1.0 if dx < 0.0 else 1.0
+	
 
 func _draw() -> void:
+		# Debug radii only in the editor or with the F3 overlay.
+	if not (Engine.is_editor_hint() or _debug_drawn):
+		return
 	draw_circle(Vector2.ZERO, scare_radius, Color(1, 0.3, 0.3, 0.05))
 	draw_arc(Vector2.ZERO, scare_radius, 0.0, TAU, 48, Color(1, 0.3, 0.3, 0.25), 2.0, true)
 	draw_circle(Vector2.ZERO, kill_radius, Color(1, 0.25, 0.25, 0.9))

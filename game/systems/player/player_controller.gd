@@ -239,13 +239,26 @@ func _can_place(_type: FieldType) -> bool:
 
 
 ## Called right after a field was placed. The mouse button may still be held for dragging.
-func _on_field_placed(_type: FieldType, _field: GravityField) -> void:
-	pass
+func _on_field_placed(_type: FieldType, field: GravityField) -> void:
+	_apply_lifetime_rules(field)
 
 
-## Called when the mouse button is released after placing [param _field].
-func _on_field_released(_field: GravityField) -> void:
-	pass
+## Called when the mouse button is released after placing [param field].
+func _on_field_released(field: GravityField) -> void:
+	if field.lifetime != null:
+		field.lifetime.paused = false
+
+
+## Applies the lifetime settings of the current [FieldRules] to a newly placed field.
+func _apply_lifetime_rules(field: GravityField) -> void:
+	if field.lifetime == null:
+		return
+	if not _rules.lifetime_enabled:
+		field.lifetime.stop()
+		return
+	if _rules.lifetime_override > 0.0:
+		field.lifetime.start(_rules.lifetime_override)
+	field.lifetime.paused = _rules.lifetime_starts_on_release
 
 
 ## Called right before the player removes [param _field] with a right click.

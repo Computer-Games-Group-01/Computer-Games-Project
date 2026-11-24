@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_kyuj4")
+id = &"gravity"
 display_name = "Gravity"
 scene = ExtResource("1_t6svv")
 metadata/_custom_type_script = "uid://bv6osu3yxj83l"

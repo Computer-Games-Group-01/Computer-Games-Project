@@ -30,7 +30,9 @@ func _ready() -> void:
 	Events.level_lost.connect(_on_level_lost)
 
 
-func set_field_type(type_name: String) -> void:
+## Shows the selected field type. null = no field types are configured.
+func set_field_type(type: FieldType) -> void:
+	var type_name := type.display_name if type != null else "–"
 	_field.text = "Feldtyp: %s  [F]" % type_name
 
 

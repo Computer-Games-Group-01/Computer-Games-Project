@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="FieldRules" format=3 uid="uid://drkcyqcxsl1sh"]
+
+[ext_resource type="Script" uid="uid://cv271si4ogw1u" path="res://systems/player/field_rules.gd" id="1_blqfa"]
+
+[resource]
+script = ExtResource("1_blqfa")
+metadata/_custom_type_script = "uid://cv271si4ogw1u"

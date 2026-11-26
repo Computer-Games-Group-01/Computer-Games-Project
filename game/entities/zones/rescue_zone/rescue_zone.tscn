@@ -1,6 +1,17 @@
 [gd_scene format=3 uid="uid://ddtdft4yeopcs"]
 
 [ext_resource type="Script" uid="uid://c7khojs54lvvx" path="res://entities/zones/rescue_zone/rescue_zone.gd" id="1_4pmhd"]
+[ext_resource type="Script" uid="uid://cybe6v63hhqm3" path="res://entities/fields/gravity_field/gravity_field.gd" id="2_hwleg"]
 
 [node name="RescueZone" type="Node2D" unique_id=850718578]
 script = ExtResource("1_4pmhd")
+pull_visible = false
+
+[node name="GoalPull" type="Node2D" parent="." unique_id=1379331742]
+script = ExtResource("2_hwleg")
+orbit_ratio = 0.0
+swirl = 0.0
+removable = false
+color = Color(0.5058824, 0.78039217, 0.5176471, 1)
+fill_alpha = 0.0
+metadata/_custom_type_script = "uid://cybe6v63hhqm3"

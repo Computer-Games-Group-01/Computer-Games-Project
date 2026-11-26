@@ -27,5 +27,4 @@ metadata/_custom_type_script = "uid://drs4sr10g6jf6"
 [node name="ItemInventory" type="Node" parent="." unique_id=1676311276]
 unique_name_in_owner = true
 script = ExtResource("8_c1tbv")
-capacity = 5
 metadata/_custom_type_script = "uid://bp4pgeixmn685"

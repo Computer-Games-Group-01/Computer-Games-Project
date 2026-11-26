@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b5y15b3dco0cj"]
+
+[ext_resource type="Script" uid="uid://d0o1xr2nd8svs" path="res://ui/hud/ability_bar/ability_bar.gd" id="1_fwwhv"]
+[ext_resource type="PackedScene" uid="uid://d2q5dpml2vvyl" path="res://ui/hud/slot_bar/bar_slot.tscn" id="2_g0aqj"]
+
+[node name="AbilityBar" type="HBoxContainer" unique_id=1437716261]
+mouse_filter = 2
+theme_type_variation = &"Hotbar"
+script = ExtResource("1_fwwhv")
+slot_scene = ExtResource("2_g0aqj")
+metadata/_custom_type_script = "uid://d0o1xr2nd8svs"

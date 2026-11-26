@@ -6,15 +6,26 @@
 [ext_resource type="Resource" uid="uid://mx2ppvw3uqf1" path="res://systems/player/field_types/gravity_field.tres" id="3_tlyc6"]
 [ext_resource type="Resource" uid="uid://bqs3ss8gb67v8" path="res://systems/player/field_types/black_hole.tres" id="4_cfycw"]
 [ext_resource type="PackedScene" uid="uid://dca471yrtlx6b" path="res://entities/fields/tear_field/tear_field.tscn" id="5_tbjhc"]
+[ext_resource type="Script" uid="uid://dtsmcpuvhc2re" path="res://systems/player/item_type.gd" id="7_46frt"]
 [ext_resource type="Script" uid="uid://drs4sr10g6jf6" path="res://systems/player/inventory/field_inventory.gd" id="7_tbjhc"]
+[ext_resource type="Script" uid="uid://bp4pgeixmn685" path="res://systems/player/inventory/item_inventory.gd" id="8_c1tbv"]
+[ext_resource type="Resource" uid="uid://hfwbmyjdf3t3" path="res://systems/player/item_types/placeholder_timed.tres" id="8_u6agx"]
+[ext_resource type="Resource" uid="uid://bcb7ekmstlbj5" path="res://systems/player/item_types/placeholder_instant.tres" id="9_wukny"]
 
 [node name="PlayerController" type="Node2D" unique_id=2025256749]
 script = ExtResource("1_5cbfs")
 default_rules = ExtResource("2_cfycw")
 field_types = Array[ExtResource("2_sil34")]([ExtResource("3_tlyc6"), ExtResource("4_cfycw")])
 tear_scene = ExtResource("5_tbjhc")
+debug_items = Array[ExtResource("7_46frt")]([ExtResource("8_u6agx"), ExtResource("9_wukny")])
 
 [node name="FieldInventory" type="Node" parent="." unique_id=232956666]
 unique_name_in_owner = true
 script = ExtResource("7_tbjhc")
 metadata/_custom_type_script = "uid://drs4sr10g6jf6"
+
+[node name="ItemInventory" type="Node" parent="." unique_id=1676311276]
+unique_name_in_owner = true
+script = ExtResource("8_c1tbv")
+capacity = 5
+metadata/_custom_type_script = "uid://bp4pgeixmn685"

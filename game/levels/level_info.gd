@@ -8,3 +8,5 @@ extends Resource
 @export_file("*.tscn") var scene_path: String = ""
 ## Minimum share of boids that must be rescued.
 @export_range(0.1, 1.0, 0.05) var required_rescue_ratio: float = 0.5
+## Rules for fields placed in this level. Empty = [member PlayerController.default_rules].
+@export var field_rules: FieldRules

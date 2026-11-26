@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://hfwbmyjdf3t3"]
+
+[ext_resource type="Script" uid="uid://dtsmcpuvhc2re" path="res://systems/player/item_type.gd" id="1_el26i"]
+
+[sub_resource type="Gradient" id="Gradient_b8it3"]
+colors = PackedColorArray(0, 0, 1, 1, 1, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_el26i"]
+gradient = SubResource("Gradient_b8it3")
+width = 28
+height = 28
+
+[resource]
+script = ExtResource("1_el26i")
+duration = 6.0
+id = &"placeholder_timed"
+display_name = "Placeholder with Time 6s"
+icon = SubResource("GradientTexture2D_el26i")
+metadata/_custom_type_script = "uid://dtsmcpuvhc2re"

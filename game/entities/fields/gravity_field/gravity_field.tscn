@@ -1,6 +1,20 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://4igx7l8hxvb7"]
 
 [ext_resource type="Script" uid="uid://cybe6v63hhqm3" path="res://entities/fields/gravity_field/gravity_field.gd" id="1_field"]
+[ext_resource type="Script" uid="uid://cd75kndvbfrmo" path="res://components/lifetime/lifetime.gd" id="2_e2gvt"]
+[ext_resource type="Script" uid="uid://b4vwiyd7ynm5i" path="res://components/decay_visual/decay_visual.gd" id="3_5n4lk"]
 
-[node name="GravityField" type="Node2D"]
+[node name="GravityField" type="Node2D" unique_id=504070055 node_paths=PackedStringArray("lifetime")]
 script = ExtResource("1_field")
+lifetime = NodePath("Lifetime")
+
+[node name="Lifetime" type="Timer" parent="." unique_id=2002020598]
+wait_time = 5.0
+script = ExtResource("2_e2gvt")
+metadata/_custom_type_script = "uid://cd75kndvbfrmo"
+
+[node name="DecayVisual" type="Node" parent="." unique_id=742757771 node_paths=PackedStringArray("lifetime")]
+script = ExtResource("3_5n4lk")
+lifetime = NodePath("../Lifetime")
+pulse_enabled = false
+metadata/_custom_type_script = "uid://b4vwiyd7ynm5i"

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dowdtt5c7t8ug"]
+
+[ext_resource type="Script" uid="uid://dff0ogdwu6s0h" path="res://ui/hud/item_bar/item_bar.gd" id="1_sorc2"]
+[ext_resource type="PackedScene" uid="uid://d2q5dpml2vvyl" path="res://ui/hud/slot_bar/bar_slot.tscn" id="2_vkn33"]
+
+[node name="ItemBar" type="HBoxContainer" unique_id=499961058]
+mouse_filter = 2
+theme_type_variation = &"Hotbar"
+script = ExtResource("1_sorc2")
+slot_scene = ExtResource("2_vkn33")
+metadata/_custom_type_script = "uid://dff0ogdwu6s0h"

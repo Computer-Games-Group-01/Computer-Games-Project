@@ -14,8 +14,8 @@ signal swarm_stats_changed(swarm_count: int, boid_count: int, active_text: Strin
 signal field_type_changed(type: FieldType)
 ## Fields of [param type] the player can still place. -1 = unlimited.
 signal field_count_changed(type: FieldType, remaining: int, maximum: int)
-## The player used an item or action. Fields send [member FieldType.id],
-## everything else an [ItemIds] constant.
+## The player used an item or action. Fields and items send their [member ItemDefinition.id],
+## other actions an [ItemIds] constant. Statistics use the id as key.
 signal item_used(item_id: StringName)
 ## The abilities the player can always use, one per field type, in bar order.
 signal abilities_changed(types: Array[FieldType])

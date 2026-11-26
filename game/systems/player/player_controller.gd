@@ -174,6 +174,7 @@ func split_active_swarm() -> void:
 	var halves := boid_world.split_swarm(swarm, axis)
 	if halves.size() < 2:
 		return
+	Events.item_used.emit(ItemIds.SWARM_SPLIT)
 	_spawn_tear_field(halves[0], center + axis * tear_distance, spread)
 	_spawn_tear_field(halves[1], center - axis * tear_distance, spread)
 	Events.message.emit("Schwarm #%d geteilt" % swarm.id)
@@ -183,6 +184,7 @@ func merge_nearby_swarms() -> void:
 	var count := boid_world.merge_nearby(merge_distance)
 	if count > 0:
 		Events.message.emit("%d Schwarm/Schwärme vereint" % count)
+		Events.item_used.emit(ItemIds.SWARM_MERGE)
 	else:
 		Events.message.emit("Kein Schwarm in Reichweite zum Vereinen")
 
@@ -307,6 +309,7 @@ func _can_place(type: FieldType) -> bool:
 func _on_field_placed(type: FieldType, field: GravityField) -> void:
 	_apply_lifetime_rules(field)
 	_inventory.register(type, field)
+	Events.item_used.emit(type.id)
 
 
 ## Called when the mouse button is released after placing [param field].
@@ -330,3 +333,4 @@ func _apply_lifetime_rules(field: GravityField) -> void:
 ## Called right before the player removes [param field] with a right click.
 func _on_field_removed(field: GravityField) -> void:
 	_inventory.on_removed_by_player(field)
+	Events.item_used.emit(ItemIds.FIELD_REMOVE)

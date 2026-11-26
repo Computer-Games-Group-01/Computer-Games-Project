@@ -12,7 +12,7 @@ gradient = SubResource("Gradient_kgwbl")
 [resource]
 script = ExtResource("1_86akn")
 scene = ExtResource("1_kgwbl")
-id = &"black_holes"
+id = &"black_hole"
 display_name = "Black Hole"
 icon = SubResource("GradientTexture2D_v08sp")
 metadata/_custom_type_script = "uid://bv6osu3yxj83l"

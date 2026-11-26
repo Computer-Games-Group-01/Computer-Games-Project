@@ -18,7 +18,7 @@ func load_level(level: LevelRoot) -> void:
 	camera.set_bounds(level.get_bounds())
 	get_tree().call_group(&"uses_boids", &"setup", boid_world)
 	camera.focus_on(level.get_start_position())
-	player_controller.reset()
+	player_controller.reset(level.info.field_rules)
 	round_rules.start(level.info)
 	Events.level_started.emit(level.info)
 

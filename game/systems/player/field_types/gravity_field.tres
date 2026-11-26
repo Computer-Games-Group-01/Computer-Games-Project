@@ -1,10 +1,18 @@
 [gd_resource type="Resource" script_class="FieldType" format=3 uid="uid://mx2ppvw3uqf1"]
 
 [ext_resource type="Script" uid="uid://bv6osu3yxj83l" path="res://systems/player/field_type.gd" id="1_kyuj4"]
-[ext_resource type="PackedScene" path="res://entities/fields/gravity_field/gravity_field.tscn" id="1_t6svv"]
+[ext_resource type="PackedScene" uid="uid://4igx7l8hxvb7" path="res://entities/fields/gravity_field/gravity_field.tscn" id="1_t6svv"]
+
+[sub_resource type="Gradient" id="Gradient_t6svv"]
+colors = PackedColorArray(0, 0.96998686, 0.7195705, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_el26i"]
+gradient = SubResource("Gradient_t6svv")
 
 [resource]
 script = ExtResource("1_kyuj4")
-display_name = "Gravity"
 scene = ExtResource("1_t6svv")
+id = &"gravity"
+display_name = "Gravity"
+icon = SubResource("GradientTexture2D_el26i")
 metadata/_custom_type_script = "uid://bv6osu3yxj83l"

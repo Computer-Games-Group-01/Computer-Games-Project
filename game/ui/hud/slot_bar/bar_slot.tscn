@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://d2q5dpml2vvyl"]
+
+[ext_resource type="Script" uid="uid://bpirc5uvntd7g" path="res://ui/hud/slot_bar/bar_slot.gd" id="1_gjkit"]
+
+[node name="BarSlot" type="Button" unique_id=1244920285]
+custom_minimum_size = Vector2(72, 72)
+focus_mode = 0
+theme_type_variation = &"HotbarSlot"
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("1_gjkit")
+metadata/_custom_type_script = "uid://bpirc5uvntd7g"
+
+[node name="Cooldown" type="ProgressBar" parent="." unique_id=2074116918]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_type_variation = &"HotbarCooldown"
+fill_mode = 3
+show_percentage = false
+
+[node name="KeyHint" type="Label" parent="." unique_id=305333737]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HotbarKeyHint"
+
+[node name="Counter" type="Label" parent="." unique_id=1215795197]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"HotbarCounter"
+horizontal_alignment = 2
+vertical_alignment = 2

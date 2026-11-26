@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://bm64yrd52fr3h"]
 
 [ext_resource type="Script" uid="uid://c6r4w4qswbrpr" path="res://ui/hud/hud.gd" id="1_hud"]
+[ext_resource type="Theme" uid="uid://c4m0j0xtotlyt" path="res://ui/hud/hotbar_theme.tres" id="1_w75iv"]
+[ext_resource type="PackedScene" uid="uid://b5y15b3dco0cj" path="res://ui/hud/ability_bar/ability_bar.tscn" id="3_imuuq"]
+[ext_resource type="PackedScene" uid="uid://dowdtt5c7t8ug" path="res://ui/hud/item_bar/item_bar.tscn" id="4_kwc50"]
 
 [node name="Hud" type="Control" unique_id=1939080221]
 layout_mode = 3
@@ -10,6 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("1_w75iv")
 script = ExtResource("1_hud")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=1445720227]
@@ -75,15 +79,46 @@ horizontal_alignment = 1
 
 [node name="HelpLabel" type="Label" parent="." unique_id=2134975158]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = -64.0
-offset_right = 1500.0
-offset_bottom = -16.0
+offset_top = -243.0
+offset_right = 414.0
+offset_bottom = -12.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.6)
-text = "Linksklick: Feld setzen (ziehen = Größe)  ·  Rechtsklick: Feld entfernen  ·  Q/E: Feld kleiner/größer  ·  F: Feldtyp
-WASD: Kamera  ·  Mausrad: Zoom  ·  Space: Schwarm teilen  ·  M: vereinen  ·  Tab: Schwarm wechseln  ·  F3: Debug"
+text = "Linksklick: Feld setzen (ziehen = Größe)  ·  Rechtsklick: Feld entfernen  ·  Q/E: Feld kleiner/größer  ·  Fähigkeit: Taste im Slot, Klick, F oder Shift+Mausrad  ·  Item: Taste im Slot oder Klick 
+
+WASD: Kamera  ·  Mausrad: Zoom  ·  Space: Schwarm teilen  ·  M: vereinen  ·  Tab: Schwarm wechseln  ·  F3: Debug  ·  F4: Test-Items"
 vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Hotbars" type="HBoxContainer" parent="." unique_id=1761203925]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -16.0
+offset_right = 20.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="AbilityBar" parent="Hotbars" unique_id=1437716261 instance=ExtResource("3_imuuq")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Divider" type="VSeparator" parent="Hotbars" unique_id=1418256079]
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"HotbarDivider"
+
+[node name="ItemBar" parent="Hotbars" unique_id=499961058 instance=ExtResource("4_kwc50")]
+unique_name_in_owner = true
+layout_mode = 2

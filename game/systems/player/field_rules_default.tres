@@ -1,7 +1,20 @@
 [gd_resource type="Resource" script_class="FieldRules" format=3 uid="uid://drkcyqcxsl1sh"]
 
+[ext_resource type="Script" uid="uid://b4gin3ujdi57r" path="res://systems/player/inventory/rules/field_limit_rule.gd" id="1_84p1d"]
 [ext_resource type="Script" uid="uid://cv271si4ogw1u" path="res://systems/player/field_rules.gd" id="1_blqfa"]
+[ext_resource type="Script" uid="uid://bv6osu3yxj83l" path="res://systems/player/field_type.gd" id="2_t01fk"]
+[ext_resource type="Script" uid="uid://shlixrrw0ri0" path="res://systems/player/inventory/rules/budget_rule.gd" id="3_lr4mu"]
+[ext_resource type="Script" uid="uid://bdgwr3813xolx" path="res://systems/player/inventory/rules/active_limit_rule.gd" id="4_j82np"]
+
+[sub_resource type="Resource" id="Resource_k0eiu"]
+script = ExtResource("3_lr4mu")
+metadata/_custom_type_script = "uid://shlixrrw0ri0"
+
+[sub_resource type="Resource" id="Resource_ax7ui"]
+script = ExtResource("4_j82np")
+metadata/_custom_type_script = "uid://bdgwr3813xolx"
 
 [resource]
 script = ExtResource("1_blqfa")
+limit_rules = Array[ExtResource("1_84p1d")]([SubResource("Resource_k0eiu"), SubResource("Resource_ax7ui")])
 metadata/_custom_type_script = "uid://cv271si4ogw1u"

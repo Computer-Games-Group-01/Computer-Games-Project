@@ -43,6 +43,7 @@ var _type_index: int = 0
 var _dragging: GravityField = null
 var _drag_origin: Vector2 = Vector2.ZERO
 var _last_field: GravityField = null
+@onready var _inventory: FieldInventory = %FieldInventory
 
 
 func _ready() -> void:
@@ -230,23 +231,32 @@ func _field_under_cursor() -> GravityField:
 
 ## Called at the end of [method reset], after the first field type was selected.
 func _on_reset() -> void:
-	pass
+	_inventory.reset(_rules, field_types)
 
 
-## Whether a field of [param _type] may be placed now.
-func _can_place(_type: FieldType) -> bool:
-	return true
+## Whether a field of [param type] may be placed now.
+func _can_place(type: FieldType) -> bool:
+	if _inventory.can_place(type):
+		return true
+	Events.message.emit("Keine Felder vom Typ %s mehr übrig" % type.display_name)
+	return false
 
 
 ## Called right after a field was placed. The mouse button may still be held for dragging.
-func _on_field_placed(_type: FieldType, field: GravityField) -> void:
+func _on_field_placed(type: FieldType, field: GravityField) -> void:
 	_apply_lifetime_rules(field)
+	_inventory.register(type, field)
 
 
 ## Called when the mouse button is released after placing [param field].
 func _on_field_released(field: GravityField) -> void:
 	if field.lifetime != null:
 		field.lifetime.paused = false
+
+
+## Called right before the player removes [param field] with a right click.
+func _on_field_removed(field: GravityField) -> void:
+	_inventory.on_removed_by_player(field)
 
 
 ## Applies the lifetime settings of the current [FieldRules] to a newly placed field.
@@ -259,8 +269,3 @@ func _apply_lifetime_rules(field: GravityField) -> void:
 	if _rules.lifetime_override > 0.0:
 		field.lifetime.start(_rules.lifetime_override)
 	field.lifetime.paused = _rules.lifetime_starts_on_release
-
-
-## Called right before the player removes [param _field] with a right click.
-func _on_field_removed(_field: GravityField) -> void:
-	pass

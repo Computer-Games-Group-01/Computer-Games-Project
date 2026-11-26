@@ -13,3 +13,7 @@ extends Resource
 @export_range(0.0, 60.0, 0.1, "or_greater", "suffix:s") var lifetime_override: float = 0.0
 ## On = a field's lifetime only starts when the mouse button is released after placing it.
 @export var lifetime_starts_on_release: bool = true
+@export_group("Limits")
+## Limits for placing fields. A field can only be placed if every enabled rule allows it.
+## Empty = unlimited.
+@export var limit_rules: Array[FieldLimitRule] = []

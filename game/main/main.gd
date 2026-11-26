@@ -9,6 +9,7 @@ func _ready() -> void:
 	hud.split_requested.connect(world.player_controller.split_active_swarm)
 	hud.merge_requested.connect(world.player_controller.merge_nearby_swarms)
 	hud.next_swarm_requested.connect(world.player_controller.select_next_swarm)
+	hud.ability_pressed.connect(world.player_controller.select_ability)
 	_load_level(GameState.current())
 
 

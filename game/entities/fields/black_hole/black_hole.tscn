@@ -1,11 +1,22 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dhiqi0c1ihwoe"]
 
 [ext_resource type="Script" uid="uid://dllftow3c8ilu" path="res://entities/fields/black_hole/black_hole.gd" id="1_hole"]
+[ext_resource type="Script" uid="uid://cd75kndvbfrmo" path="res://components/lifetime/lifetime.gd" id="2_igf22"]
+[ext_resource type="Script" uid="uid://b4vwiyd7ynm5i" path="res://components/decay_visual/decay_visual.gd" id="3_k550l"]
 
-[node name="BlackHole" type="Node2D"]
+[node name="BlackHole" type="Node2D" unique_id=361803571 node_paths=PackedStringArray("lifetime")]
 script = ExtResource("1_hole")
 radius = 420.0
-strength = 900.0
 swirl = 0.6
 color = Color(0.75, 0.35, 1, 1)
-core_radius = 30.0
+lifetime = NodePath("Lifetime")
+
+[node name="Lifetime" type="Timer" parent="." unique_id=60158665]
+wait_time = 5.0
+script = ExtResource("2_igf22")
+metadata/_custom_type_script = "uid://cd75kndvbfrmo"
+
+[node name="DecayVisual" type="Node" parent="." unique_id=1379325076 node_paths=PackedStringArray("lifetime")]
+script = ExtResource("3_k550l")
+lifetime = NodePath("../Lifetime")
+metadata/_custom_type_script = "uid://b4vwiyd7ynm5i"

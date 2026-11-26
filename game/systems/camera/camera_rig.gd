@@ -45,9 +45,10 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not zoom_enabled:
 		return
-	if event.is_action_pressed(InputActions.CAMERA_ZOOM_IN):
+	# exact_match = true: Shift + mouse wheel switches the ability and does not zoom.
+	if event.is_action_pressed(InputActions.CAMERA_ZOOM_IN, false, true):
 		_zoom_at_mouse(zoom_step)
-	elif event.is_action_pressed(InputActions.CAMERA_ZOOM_OUT):
+	elif event.is_action_pressed(InputActions.CAMERA_ZOOM_OUT, false, true):
 		_zoom_at_mouse(1.0 / zoom_step)
 
 

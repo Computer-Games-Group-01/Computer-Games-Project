@@ -10,5 +10,11 @@ signal level_won(result: RoundResult)
 signal level_lost(result: RoundResult)
 signal boids_rescued(count: int)
 signal swarm_stats_changed(swarm_count: int, boid_count: int, active_text: String)
-signal field_type_changed(type_name: String)
+## The player selected another field type. null = no field types are configured.
+signal field_type_changed(type: FieldType)
+## Fields of [param type] the player can still place. -1 = unlimited.
+signal field_count_changed(type: FieldType, remaining: int, maximum: int)
+## The player used an item or action. Fields send [member FieldType.id],
+## everything else an [ItemIds] constant.
+signal item_used(item_id: StringName)
 signal message(text: String)

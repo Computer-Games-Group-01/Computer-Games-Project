@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_86akn")
+id = &"black_holes"
 display_name = "Black Hole"
 scene = ExtResource("1_kgwbl")
 metadata/_custom_type_script = "uid://bv6osu3yxj83l"

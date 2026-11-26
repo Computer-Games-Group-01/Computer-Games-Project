@@ -8,6 +8,7 @@ extends Node2D
 ##   F                     next ability (field type)
 ##   Shift + mouse wheel   next/previous ability
 ##   1, 2, … or a click    select that ability (Input Map: ability_1, ability_2, …)
+##   X, C, V or a click    use that item (Input Map: item_1, item_2, …)
 ##   Space, M, Tab         split swarm, merge nearby swarms, select next swarm
 ##   F3                    BoidWorld debug overlay
 ##   F4                    add the debug items (debug builds only)
@@ -95,6 +96,10 @@ func current_type_name() -> String:
 func select_ability(index: int) -> void:
 	if index >= 0 and index < field_types.size():
 		_select_type(index)
+		
+## Uses one item from item slot [param index] (see [method ItemInventory.use]).
+func use_item(index: int) -> void:
+	_items.use(index)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -128,8 +133,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		_give_debug_items()
 	elif event.is_pressed() and not event.is_echo():
 		var ability := _pressed_slot(event, field_types.size(), false)
+		var item := _pressed_slot(event, _items.capacity, true)
 		if ability >= 0:
 			select_ability(ability)
+		elif item >= 0:
+			use_item(item)
 
 
 func _process(delta: float) -> void:

@@ -83,14 +83,16 @@ anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = -152.0
-offset_right = 1500.0
-offset_bottom = -104.0
+offset_top = -243.0
+offset_right = 414.0
+offset_bottom = -12.0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.6)
-text = "Linksklick: Feld setzen (ziehen = Größe)  ·  Rechtsklick: Feld entfernen  ·  Q/E: Feld kleiner/größer  ·  Fähigkeit: Taste im Slot, Klick, F oder Shift+Mausrad
+text = "Linksklick: Feld setzen (ziehen = Größe)  ·  Rechtsklick: Feld entfernen  ·  Q/E: Feld kleiner/größer  ·  Fähigkeit: Taste im Slot, Klick, F oder Shift+Mausrad  ·  Item: Taste im Slot oder Klick 
+
 WASD: Kamera  ·  Mausrad: Zoom  ·  Space: Schwarm teilen  ·  M: vereinen  ·  Tab: Schwarm wechseln  ·  F3: Debug  ·  F4: Test-Items"
 vertical_alignment = 2
+autowrap_mode = 3
 
 [node name="Hotbars" type="HBoxContainer" parent="." unique_id=1761203925]
 layout_mode = 1

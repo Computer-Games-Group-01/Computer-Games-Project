@@ -12,6 +12,7 @@ height = 28
 
 [resource]
 script = ExtResource("1_el26i")
+duration = 6.0
 id = &"placeholder_timed"
 display_name = "Placeholder with Time 6s"
 icon = SubResource("GradientTexture2D_el26i")

@@ -7,6 +7,8 @@ signal merge_requested
 signal next_swarm_requested
 ## The player clicked ability slot [param index].
 signal ability_pressed(index: int)
+## The player clicked item slot [param index].
+signal item_pressed(index: int)
 
 @onready var _info: Label = %InfoLabel
 @onready var _field: Label = %FieldLabel
@@ -28,6 +30,7 @@ func _ready() -> void:
 	%MergeButton.pressed.connect(func() -> void: merge_requested.emit())
 	%NextButton.pressed.connect(func() -> void: next_swarm_requested.emit())
 	%AbilityBar.slot_pressed.connect(ability_pressed.emit)
+	%ItemBar.slot_pressed.connect(item_pressed.emit)
 	_message.modulate.a = 0.0
 	Events.swarm_stats_changed.connect(_on_swarm_stats_changed)
 	Events.round_progress.connect(_on_round_progress)

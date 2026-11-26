@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemType" format=3 uid="uid://bcb7ekmstlbj5"]
+
+[ext_resource type="Script" uid="uid://dtsmcpuvhc2re" path="res://systems/player/item_type.gd" id="1_3j0mw"]
+
+[sub_resource type="Gradient" id="Gradient_5fl4q"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_b8it3"]
+gradient = SubResource("Gradient_5fl4q")
+width = 28
+height = 28
+
+[resource]
+script = ExtResource("1_3j0mw")
+max_stack = 5
+id = &"placeholder_instant"
+display_name = "Placeholder Item"
+icon = SubResource("GradientTexture2D_b8it3")
+metadata/_custom_type_script = "uid://dtsmcpuvhc2re"

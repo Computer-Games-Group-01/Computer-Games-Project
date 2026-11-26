@@ -5,6 +5,8 @@ extends Control
 signal split_requested
 signal merge_requested
 signal next_swarm_requested
+## The player clicked ability slot [param index].
+signal ability_pressed(index: int)
 
 @onready var _info: Label = %InfoLabel
 @onready var _field: Label = %FieldLabel
@@ -25,6 +27,7 @@ func _ready() -> void:
 	%SplitButton.pressed.connect(func() -> void: split_requested.emit())
 	%MergeButton.pressed.connect(func() -> void: merge_requested.emit())
 	%NextButton.pressed.connect(func() -> void: next_swarm_requested.emit())
+	%AbilityBar.slot_pressed.connect(ability_pressed.emit)
 	_message.modulate.a = 0.0
 	Events.swarm_stats_changed.connect(_on_swarm_stats_changed)
 	Events.round_progress.connect(_on_round_progress)
